@@ -27,3 +27,15 @@ a + b = 5
 ```
 
 (stunning, I know)
+
+# TODO
+
+(there are more todos within the code, this is the only acceptable way to manage open issues)
+
+Ranked in order of priority;
+
+- fix mypy typing
+    - make mypy not accept any untyped variable declarations
+- comment coverage
+- add project structure
+- add pylint (and pep8?)

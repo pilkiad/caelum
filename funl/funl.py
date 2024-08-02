@@ -6,16 +6,25 @@ from textx import metamodel_from_str
 import typing
 
 from funl import mm_definition
-from funl.utils import asserter
-from funl.utils import logger
 from funl import evaluator
 
 # Example input
-input_code = '''
-a = int(2)
-b = int(3)
+input_code: str = '''
+a = int(40)
+b = int(2)
 res = add(a(), b())
-print("a + b = ", cast(res(), str))
+print(
+    "a + b = ",
+    cast(a(), str),
+    " + ",
+    cast(b(), str),
+    " = "
+    cast(res(), str)
+)
+
+my_func = {
+    return(int(0))
+}
 '''
 
 # Parse the input string

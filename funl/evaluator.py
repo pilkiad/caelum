@@ -5,7 +5,7 @@ Provides functionality for evaluating textx models
 from funl import mm_definition
 from funl.utils import eval_function as ef
 
-environment = {}
+environment: dict[str, mm_definition.mm["Function"]] = {}
 last_statement = None
 
 def eval_model(model) -> None:
@@ -18,7 +18,7 @@ def eval_model(model) -> None:
         last_statement = statement
         eval_statement(statement)
 
-def eval_statement(statement):
+def eval_statement(statement: str):
     # TODO - type annotation
     if isinstance(statement, mm_definition.mm["FunctionDefinition"]):
         eval_function_definition(statement.name, statement.function)

@@ -2,9 +2,11 @@
 Provides functionality for asserting datatypes and more
 """
 
+import typing
+
 from funl.utils import logger
 
-def assert_type(func: str, value: any, expected: type) -> bool:
+def assert_type(func: str, value: typing.Any, expected: type) -> bool:
     """
     Checks if a given value is of the correct datatype and reports an error
     if that is not the case

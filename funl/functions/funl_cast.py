@@ -9,7 +9,7 @@ from funl.utils import logger
 
 from funl import evaluator
 
-def handle(params: list[mm_definition.mm["Param"]]) -> int:
+def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
     """
     Cast value to other type
 

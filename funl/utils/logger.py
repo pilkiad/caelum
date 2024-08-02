@@ -14,3 +14,5 @@ def err(errtype: str, reason: str) -> None:
 
     print(f"ERROR.{errtype}: {reason}")
     exit(1)
+
+# TODO - add other logging levels, debug, info
