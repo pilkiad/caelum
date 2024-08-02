@@ -1,6 +1,6 @@
 # funl
 
-Silly experimental languag where absolutely everything is a function
+Silly experimental language where absolutely everything is a function.
 
 I developed this idea while talking to a coworker about how greate the idea of tcl is - to build a complex language from incredibly simple rules.
 
