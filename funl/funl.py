@@ -9,7 +9,7 @@ from funl import mm_definition
 from funl import evaluator
 
 # Example input
-input_code: str = '''
+input_code: str = """
 a = int(40)
 b = int(2)
 res = add(a(), b())
@@ -25,7 +25,7 @@ print(
 my_func = {
     return(int(0))
 }
-'''
+"""
 
 # Parse the input string
 model = mm_definition.mm.model_from_str(input_code)

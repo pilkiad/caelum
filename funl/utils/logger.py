@@ -2,6 +2,7 @@
 Provides functionality for simplified logging
 """
 
+
 def err(errtype: str, reason: str) -> None:
     """
     Prints an error message to the console
@@ -14,5 +15,6 @@ def err(errtype: str, reason: str) -> None:
 
     print(f"ERROR.{errtype}: {reason}")
     exit(1)
+
 
 # TODO - add other logging levels, debug, info

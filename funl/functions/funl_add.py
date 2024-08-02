@@ -7,6 +7,7 @@ from funl.utils import eval_function as ef
 from funl.utils import asserter
 from funl.utils import logger
 
+
 def handle(params: list[mm_definition.mm["Param"]] | Node) -> int:
     """
     Adds any ints together
@@ -28,4 +29,3 @@ def handle(params: list[mm_definition.mm["Param"]] | Node) -> int:
         result += value
 
     return result
-

@@ -9,6 +9,7 @@ from funl.utils import logger
 
 from funl import evaluator
 
+
 def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
     """
     Cast value to other type
@@ -17,7 +18,6 @@ def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
         params[0]: mm_definition.mm['Function']
         params[1]: type
     """
-
 
     if params == None or len(params) != 2:
         logger.err("INCORRECT_PARAMS", "Missing parameters for function 'cast'")
@@ -30,4 +30,3 @@ def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
         return int(ef.eval_function(name=params[0].name, params=params[0].params))
 
     logger.err("INCORRECT_TYPE", f"Cannot cast to '{params[1]}'")
-

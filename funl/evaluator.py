@@ -8,6 +8,7 @@ from funl.utils import eval_function as ef
 environment: dict[str, mm_definition.mm["Function"]] = {}
 last_statement = None
 
+
 def eval_model(model) -> None:
     # TODO - type annotation
     global last_statement
@@ -18,6 +19,7 @@ def eval_model(model) -> None:
         last_statement = statement
         eval_statement(statement)
 
+
 def eval_statement(statement: str):
     # TODO - type annotation
     if isinstance(statement, mm_definition.mm["FunctionDefinition"]):
@@ -25,9 +27,11 @@ def eval_statement(statement: str):
     if isinstance(statement, mm_definition.mm["Function"]):
         ef.eval_function(statement.name, statement.params)
 
-def eval_function_definition(name: str, function: mm_definition.mm["FunctionDefinition"]) -> None:
+
+def eval_function_definition(
+    name: str, function: mm_definition.mm["FunctionDefinition"]
+) -> None:
     # TODO - type annotation
     global environment
     environment.update({name: function})
     ef.eval_function(name=function.name, params=function.params)
-

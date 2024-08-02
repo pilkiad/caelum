@@ -15,7 +15,10 @@ from funl.functions import funl_cast
 # comes from evaluator
 environment: dict[str, mm_definition.mm["Function"]] = {}
 
-def eval_function(name: str, params: list[mm_definition.mm["Param"]] | None) -> typing.Any:
+
+def eval_function(
+    name: str, params: list[mm_definition.mm["Param"]] | None
+) -> typing.Any:
     """
     Evaluates (executes) a function
 
@@ -44,6 +47,7 @@ def eval_function(name: str, params: list[mm_definition.mm["Param"]] | None) -> 
 
     return None
 
+
 def get_function(name: str) -> mm_definition.mm["Function"] | None:
     """
     Gets a user defined function from the environment
@@ -61,4 +65,3 @@ def get_function(name: str) -> mm_definition.mm["Function"] | None:
             return value
 
     return None
-

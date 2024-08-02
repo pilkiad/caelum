@@ -5,6 +5,7 @@ Provides inbuilt int() function
 from funl.utils import asserter
 from funl.utils import logger
 
+
 def handle(params: list[str] | None) -> int:
     """
     Represents the basic int datatype
@@ -17,4 +18,3 @@ def handle(params: list[str] | None) -> int:
     asserter.assert_type("int", params[0], int)
 
     return int(params[0])
-

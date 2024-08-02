@@ -6,6 +6,7 @@ import typing
 
 from funl.utils import logger
 
+
 def assert_type(func: str, value: typing.Any, expected: type) -> bool:
     """
     Checks if a given value is of the correct datatype and reports an error
@@ -21,21 +22,23 @@ def assert_type(func: str, value: typing.Any, expected: type) -> bool:
     """
 
     if value is None:
-        logger.err("INCORRECT_TYPE",
+        logger.err(
+            "INCORRECT_TYPE",
             f"Function '{func}' expected type "
             f"'{expected.__name__}' but got "
-            f"none")
+            f"none",
+        )
         return False
 
     result = isinstance(value, expected)
 
     if not result:
-        logger.err("INCORRECT_TYPE",
+        logger.err(
+            "INCORRECT_TYPE",
             f"Function '{func}' expected type "
             f"'{expected.__name__}' but got "
-            f"'{type(value).__name__}'")
+            f"'{type(value).__name__}'",
+        )
         return False
 
     return True
-
-

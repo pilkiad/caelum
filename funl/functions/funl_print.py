@@ -7,6 +7,7 @@ from funl.utils import eval_function as ef
 from funl.utils import asserter
 from funl.utils import logger
 
+
 def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
     """
     Prints params to the console
@@ -30,4 +31,3 @@ def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
 
     print("")
     return result
-

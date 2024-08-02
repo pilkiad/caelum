@@ -21,5 +21,3 @@ funl_grammar = """
 
 # Create a metamodel from the grammar
 mm = metamodel_from_str(funl_grammar)
-
-
