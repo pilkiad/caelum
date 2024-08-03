@@ -21,10 +21,6 @@ print(
     " = "
     cast(res(), str)
 )
-
-my_func = {
-    return(int(0))
-}
 """
 
 # Parse the input string

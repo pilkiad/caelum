@@ -2,12 +2,14 @@
 Provides functionality for evaluating textx models
 """
 
+import typing
+from textx import metamodel_from_str
+
 from funl import mm_definition
 from funl.utils import eval_function as ef
 
 environment: dict[str, mm_definition.mm["Function"]] = {}
 last_statement = None
-
 
 def eval_model(model) -> None:
     # TODO - type annotation
@@ -23,6 +25,7 @@ def eval_model(model) -> None:
 def eval_statement(statement: str):
     # TODO - type annotation
     if isinstance(statement, mm_definition.mm["FunctionDefinition"]):
+        reveal_type(statement)
         eval_function_definition(statement.name, statement.function)
     if isinstance(statement, mm_definition.mm["Function"]):
         ef.eval_function(statement.name, statement.params)
@@ -31,6 +34,7 @@ def eval_statement(statement: str):
 def eval_function_definition(
     name: str, function: mm_definition.mm["FunctionDefinition"]
 ) -> None:
+    print(type(function))
     # TODO - type annotation
     global environment
     environment.update({name: function})

@@ -8,7 +8,7 @@ from funl.utils import asserter
 from funl.utils import logger
 
 
-def handle(params: list[mm_definition.mm["Param"]] | Node) -> int:
+def handle(params: list[mm_definition.mm["Param"]] | None) -> int:
     """
     Adds any ints together
 
