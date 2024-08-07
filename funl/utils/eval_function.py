@@ -4,7 +4,7 @@ Provides functionality for evaluating funl functions
 
 import typing
 
-from funl import mm_definition
+from funl import mm_definition as mmd
 from funl.utils import logger
 from funl.functions import funl_add
 from funl.functions import funl_int
@@ -13,11 +13,11 @@ from funl.functions import funl_cast
 
 # TODO - comment
 # comes from evaluator
-environment: dict[str, mm_definition.mm["Function"]] = {}
+environment: dict[str, mmd.mm["FunctionCall"]] = {}
 
 
 def eval_function(
-    name: str, params: list[mm_definition.mm["Param"]] | None
+    name: str, params: list[mmd.mm["Param"]] | None
 ) -> typing.Any:
     """
     Evaluates (executes) a function
@@ -39,29 +39,36 @@ def eval_function(
     elif name == "cast":
         return funl_cast.handle(params)
     else:
-        function: mm_definition.mm["Function"] = get_function(name=name)
+        function: mmd.mm["Function"] = get_function(name=name)
         if function is None:
             logger.err("VALUE", f"Unknown token '{name}'")
         else:
+            # TODO -    fails because now codeblocks can be defined,
+            #           and now these block dont match the syntax we expect
+            #           here: they have no name(params) pattern but we need to
+            #           simply evaluate them (turn them into statements)
+            # NOTE -    Maybe now we need to implement a stack?
             return eval_function(name=function.name, params=function.params)
 
     return None
 
 
-def get_function(name: str) -> mm_definition.mm["Function"] | None:
+def get_function(name: str) -> mmd.mm["FunctionCall"] | None:
     """
     Gets a user defined function from the environment
 
     name: str   The name of the function
 
-    mm['Function'] | None:  The metamodel function if one was found
-                            None otherwise
+    mmd.mm['FunctionCall'] | None:  The metamodel function if one was found
+                                    None otherwise
     """
+
+    assert(name is not None)
 
     global environment
 
     for key, value in environment.items():
-        if key == name and isinstance(value, mm_definition.mm["Function"]):
+        if key == name:
             return value
 
     return None
