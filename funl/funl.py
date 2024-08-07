@@ -3,7 +3,6 @@ Entry point to funl, currently used for testing
 """
 
 from textx import metamodel_from_str
-import typing
 
 from funl import mm_definition
 from funl import evaluator
