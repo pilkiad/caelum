@@ -16,8 +16,7 @@ manage open issues)
 
 Ranked in order of priority;
 
-- fix mypy typing
-    - make mypy not accept any untyped variable declarations
+- add function definitions using code blocks
 - comment coverage
 - add project structure
 - add pylint (and pep8?)
