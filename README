@@ -17,6 +17,10 @@ manage open issues)
 Ranked in order of priority;
 
 - add function definitions using code blocks
+	- implement stack pointer
+	- implement saving function code under specified name
+	- implement local environments?
+	- implement executing single statements based on line
 - comment coverage
 - add project structure
 - add pylint (and pep8?)
