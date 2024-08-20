@@ -20,7 +20,20 @@ def eval_function(
     name: str, params: list[mmd.mm["Param"]] | None
 ) -> typing.Any:
     """
-    Evaluates (executes) a function
+    Evaluates (executes) a function call.
+    A function call can have the form of one of the following:
+    1. Primitive call, like 'add' or 'int'
+        - In this case, call the handle() function provided by funl to
+            execute the inbuilt functionality
+    2. A custom defined function, like 'x = int(5)'
+        - In this case, whenever we find the name 'x' simply call eval_function again
+            in order to evaluate the primitive
+    3. A custom defined code block, like 'my_func = { ... }'
+        - In this case, turn everything inside the code block into a model and
+            start executing that
+
+    So, function calls are sort of handled recursively. Execute every
+    function until we have reached a primitive
 
     name: str                               The name of the function
     params: list[mm['Param']] | None        Function parameters, can be empty
@@ -30,6 +43,7 @@ def eval_function(
 
     global environment
 
+    # Check if we are evaluating a primitive function
     if name == "add":
         return funl_add.handle(params)
     elif name == "int":
@@ -38,19 +52,24 @@ def eval_function(
         return funl_print.handle(params)
     elif name == "cast":
         return funl_cast.handle(params)
+
+    # If not, are we looking at a custom defined function?
     else:
         function: mmd.mm["Function"] = get_function(name=name)
+
+        # If there is neither a primitive or a custom function being called,
+        # the user must have entered something invalid
         if function is None:
             logger.err("VALUE", f"Unknown token '{name}'")
-        else:
-            # TODO -    fails because now codeblocks can be defined,
-            #           and now these block dont match the syntax we expect
-            #           here: they have no name(params) pattern but we need to
-            #           simply evaluate them (turn them into statements)
-            # NOTE -    Maybe now we need to implement a stack?
-            return eval_function(name=function.name, params=function.params)
+            return
 
-    return None
+    # Check if function has params or codeblock
+    if hasattr(function, "params"):
+        return eval_function(name=function.name, params=function.params)
+    else:
+        # Evaluate a code block as a new model
+        from funl import evaluator
+        evaluator.eval_code_block_as_model(function)
 
 
 def get_function(name: str) -> mmd.mm["FunctionCall"] | None:

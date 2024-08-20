@@ -10,8 +10,9 @@ from funl import evaluator
 # Example input
 input_code: str = """
 my_func = {
-    print("Functions are working now!")
+    print("Functions are working now! Kind of...")
 }
+
 my_func()
 """
 

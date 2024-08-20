@@ -21,6 +21,8 @@ Ranked in order of priority;
 	- implement saving function code under specified name
 	- implement local environments?
 	- implement executing single statements based on line
+- the ability to load from a file
+- unit tests?
 - comment coverage
 - add project structure
 - add pylint (and pep8?)

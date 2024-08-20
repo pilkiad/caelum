@@ -1,0 +1,5 @@
+my_func = {
+    print("Functions are working now! Kind of...")
+}
+
+my_func()

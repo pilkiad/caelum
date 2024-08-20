@@ -11,6 +11,10 @@ from funl.utils import eval_function as ef
 environment: dict[str, mmd.mm["FunctionCall"]] = {}
 last_statement = None
 
+def eval_code_block_as_model(code_block: mmd.mm["CodeBlock"]) -> None:
+    new_model = mmd.mm.model_from_str(code_block.content)
+    eval_model(new_model)
+
 def eval_model(model: mmd.mm["Model"]) -> None:
     """
     Evaluates a textx model
@@ -80,9 +84,9 @@ def eval_function_definition_block(
 ) -> None:
     """
     Evaluate a function definition within a textx model.
-    This function was defined using a code block. i.e. a = { ...}
+    This function was defined using a code block. i.e. a = { ... }
     
-    name: mmd.mm['Name']                    The name of the function
+    name: mmd.mm['Name']            The name of the function
     code_block: mmd.mm['CodeBlock'] The code of the function
     """
 
@@ -92,4 +96,4 @@ def eval_function_definition_block(
     global environment
 
     environment.update({name: code_block})
- 
+
