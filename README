@@ -8,6 +8,15 @@ Silly experimental language where absolutely everything is a function. I develop
 - Strongly typed variables - because this helps with preventing errors
 - Interpreted (because that was easiest)
 
+Supported primitives
+--------------------
+
+- int: Represents any integer
+- uint: Represents unsigned (positive) integers
+- print: Prints any string to stdout
+- cast: Casts functions to a different type
+- add: Adds any number of integers
+
 TODO
 ----
 
