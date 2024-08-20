@@ -1,0 +1,7 @@
+a = int(1)
+b = int(2)
+c = int(3)
+
+result = add(a(), b(), c())
+
+print(cast(result(), str))

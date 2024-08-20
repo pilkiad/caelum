@@ -9,10 +9,11 @@ from funl import evaluator
 
 # Example input
 input_code: str = """
-a = int(2)
-b = uint(-3)
+a = int(1)
+b = int(2)
+c = int(3)
 
-result = add(a(), b())
+result = add(a(), b(), c())
 
 print(cast(result(), str))
 """
