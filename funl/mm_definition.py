@@ -17,7 +17,7 @@ funl_grammar = """
     Param: FunctionCall| INT | ID | STRING;
     Comment: /#.*$/;
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
-    INT: /[0-9]+/;
+    INT: /-?[0-9]+/;
     STRING: /".*"/;
 """
 

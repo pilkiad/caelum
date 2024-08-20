@@ -9,11 +9,12 @@ from funl import evaluator
 
 # Example input
 input_code: str = """
-my_func = {
-    print("Functions are working now! Kind of...")
-}
+a = int(2)
+b = uint(-3)
 
-my_func()
+result = add(a(), b())
+
+print(cast(result(), str))
 """
 
 # Parse the input string

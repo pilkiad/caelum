@@ -10,15 +10,14 @@ from funl.functions import funl_add
 from funl.functions import funl_int
 from funl.functions import funl_print
 from funl.functions import funl_cast
+from funl.functions import funl_uint
 
 # TODO - comment
 # comes from evaluator
 environment: dict[str, mmd.mm["FunctionCall"]] = {}
 
 
-def eval_function(
-    name: str, params: list[mmd.mm["Param"]] | None
-) -> typing.Any:
+def eval_function(name: str, params: list[mmd.mm["Param"]] | None) -> typing.Any:
     """
     Evaluates (executes) a function call.
     A function call can have the form of one of the following:
@@ -52,6 +51,8 @@ def eval_function(
         return funl_print.handle(params)
     elif name == "cast":
         return funl_cast.handle(params)
+    elif name == "uint":
+        return funl_uint.handle(params)
 
     # If not, are we looking at a custom defined function?
     else:
@@ -69,6 +70,7 @@ def eval_function(
     else:
         # Evaluate a code block as a new model
         from funl import evaluator
+
         evaluator.eval_code_block_as_model(function)
 
 
@@ -82,7 +84,7 @@ def get_function(name: str) -> mmd.mm["FunctionCall"] | None:
                                     None otherwise
     """
 
-    assert(name is not None)
+    assert name is not None
 
     global environment
 
