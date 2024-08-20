@@ -9,13 +9,12 @@ from funl import evaluator
 
 # Example input
 input_code: str = """
-a = int(1)
-b = int(2)
-c = int(3)
+my_func = {
+    print("Hello, ", n)
+}
 
-result = add(a(), b(), c())
-
-print(cast(result(), str))
+my_func()
+print("world!")
 """
 
 # Parse the input string
@@ -23,3 +22,5 @@ model = mmd.mm.model_from_str(input_code)
 
 # Evaluate the parsed model
 evaluator.eval_model(model)
+
+print("")

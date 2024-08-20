@@ -21,6 +21,13 @@ def handle(params: list[mmd.mm["Param"]] | None) -> int:
     result = ""
 
     for param in params:
+
+        # Special case: n as param will print new line
+        if param == "n":
+            print("")
+            continue
+
+        # Evaluate a function if its possible
         value = param
         if isinstance(param, mmd.mm["FunctionCall"]):
             value = ef.eval_function(name=param.name, params=param.params)
@@ -29,5 +36,4 @@ def handle(params: list[mmd.mm["Param"]] | None) -> int:
         print(value, end="")
         result += value
 
-    print("")
     return result
