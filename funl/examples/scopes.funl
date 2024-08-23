@@ -9,7 +9,7 @@ my_func = {
     print(cast(b(), str), n)
 }
 
-my_func(a)
+my_func()
 
 print("Printing b() should error, since function was left: ", n)
 print(cast(b(), str))
