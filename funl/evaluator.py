@@ -9,19 +9,34 @@ from funl import mm_definition as mmd
 from funl.utils import eval_function as ef
 
 environment: dict[str, mmd.mm["FunctionCall"]] = {}
-last_statement = None
 
 
 def eval_code_block_as_model(code_block: mmd.mm["CodeBlock"]) -> None:
+    """
+    Turns a code block (from a defined function) into its own
+    textx model so we can run the code inside the function
+
+    code_block: mmd.mm['CodeBlock'] The code block that should be executed
+    """
+
+    assert code_block is not None
+
     new_model = mmd.mm.model_from_str(code_block.content)
-    eval_model(new_model)
+    local_environment = {}
+    eval_model(new_model, env=local_environment)
+
+    ef.environment = None
 
 
-def eval_model(model: mmd.mm["Model"]) -> None:
+def eval_model(
+    model: mmd.mm["Model"], env: dict[str, mmd.mm["FunctionCall"]] = environment
+) -> None:
     """
     Evaluates a textx model
 
-    model: mmd.mm['Model']) The model to evaluate
+    model: mmd.mm['Model'])                 The model to evaluate
+    env: dict[str, mmd.mm['FunctionCall']]) Optional environment, used when
+    calling eval_model from eval_code_block_as_model
     """
 
     assert model is not None
@@ -29,13 +44,20 @@ def eval_model(model: mmd.mm["Model"]) -> None:
     global last_statement
     global environment
 
-    ef.environment = environment
+    # Either use the global env or - if one was provided - the local one
+    if env != environment:
+        ef.environment = env
+        ef.global_environment = environment
+    else:
+        ef.environment = environment
+
     for statement in model.statement:
-        last_statement = statement
-        eval_statement(statement)
+        eval_statement(statement, env)
 
 
-def eval_statement(statement: str):
+def eval_statement(
+    statement: str, env: dict[str, mmd.mm["FunctionCall"]] = environment
+):
     """
     Evaluates a single statement within a textx model
 
@@ -46,9 +68,9 @@ def eval_statement(statement: str):
 
     if isinstance(statement, mmd.mm["FunctionDefinition"]):
         if statement.function is not None:
-            eval_function_definition_inbuilt(statement.name, statement.function)
+            eval_function_definition_inbuilt(statement.name, statement.function, env)
         elif statement.code_block is not None:
-            eval_function_definition_block(statement.name, statement.code_block)
+            eval_function_definition_block(statement.name, statement.code_block, env)
         else:
             raise Exception("Invalid function definition")
 
@@ -60,7 +82,9 @@ def eval_statement(statement: str):
 
 
 def eval_function_definition_inbuilt(
-    name: mmd.mm["ID"], function: mmd.mm["FunctionDefinition"]
+    name: mmd.mm["ID"],
+    function: mmd.mm["FunctionDefinition"],
+    env: dict[str, mmd.mm["FunctionCall"]] = environment,
 ) -> None:
     """
     Evaluate a function definition within a textx model.
@@ -73,14 +97,14 @@ def eval_function_definition_inbuilt(
     assert name is not None
     assert function is not None
 
-    global environment
-
-    environment.update({name: function})
+    env.update({name: function})
     ef.eval_function(name=function.name, params=function.params)
 
 
 def eval_function_definition_block(
-    name: mmd.mm["ID"], code_block: mmd.mm["CodeBlock"]
+    name: mmd.mm["ID"],
+    code_block: mmd.mm["CodeBlock"],
+    env: dict[str, mmd.mm["FunctionCall"]] = environment,
 ) -> None:
     """
     Evaluate a function definition within a textx model.
@@ -93,6 +117,4 @@ def eval_function_definition_block(
     assert name is not None
     assert code_block is not None
 
-    global environment
-
-    environment.update({name: code_block})
+    env.update({name: code_block})

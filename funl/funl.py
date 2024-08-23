@@ -9,12 +9,21 @@ from funl import evaluator
 
 # Example input
 input_code: str = """
+a = int(0)
+
 my_func = {
-    print("Hello, ", n)
+    b = int(1)
+
+    print("a() from global env: ")
+    print(cast(a(), str), n)
+    print("b() from local env: ")
+    print(cast(b(), str), n)
 }
 
-my_func()
-print("world!")
+my_func(a)
+
+print("Printing b() should error, since function was left: ", n)
+print(cast(b(), str))
 """
 
 # Parse the input string

@@ -15,6 +15,9 @@ from funl.functions import funl_uint
 # TODO - comment
 # comes from evaluator
 environment: dict[str, mmd.mm["FunctionCall"]] = {}
+# FIXME - kind of ugly structure i think
+# Guaranteed to be global
+global_environment: dict[str, mmd.mm["FunctionCall"]] = {}
 
 
 def eval_function(name: str, params: list[mmd.mm["Param"]] | None) -> typing.Any:
@@ -87,8 +90,17 @@ def get_function(name: str) -> mmd.mm["FunctionCall"] | None:
     assert name is not None
 
     global environment
+    global global_environment
 
-    for key, value in environment.items():
+    # Search local environment for var
+    # (if there is a local env)
+    if environment is not None:
+        for key, value in environment.items():
+            if key == name:
+                return value
+
+    # Search global environment for var
+    for key, value in global_environment.items():
         if key == name:
             return value
 
