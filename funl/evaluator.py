@@ -3,10 +3,11 @@ Provides functionality for evaluating textx models
 """
 
 import typing
-from textx import metamodel_from_str
+from textx import metamodel_from_str, get_location
 
 from funl import mm_definition as mmd
 from funl.utils import eval_function as ef
+from funl.utils import logger
 
 environment: dict[str, mmd.mm["FunctionCall"]] = {}
 
@@ -52,6 +53,7 @@ def eval_model(
         ef.environment = environment
 
     for statement in model.statement:
+        logger.last_statement = statement
         eval_statement(statement, env)
 
 

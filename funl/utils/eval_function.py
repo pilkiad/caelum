@@ -64,7 +64,14 @@ def eval_function(name: str, params: list[mmd.mm["Param"]] | None) -> typing.Any
         # If there is neither a primitive or a custom function being called,
         # the user must have entered something invalid
         if function is None:
-            logger.err("VALUE", f"Unknown token '{name}'")
+            logger.err(
+                "VALUE",
+                f"Unknown token '{name}'",
+                [
+                    "You may have misspelled the name",
+                    "You may have declared thevariable in a local scope",
+                ],
+            )
             return
 
     # Check if function has params or codeblock

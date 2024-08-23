@@ -11,6 +11,5 @@ my_func = {
 
 my_func()
 
-print("Printing b() should error, since function was left: ", n)
 print(cast(b(), str))
 
