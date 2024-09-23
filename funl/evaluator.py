@@ -1,5 +1,7 @@
 """
-Provides functionality for evaluating textx models
+> Provides functionality for evaluating textx models
+
+Greetings, traveler!
 """
 
 import typing
