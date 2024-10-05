@@ -28,7 +28,7 @@ from .utils import logger
 logger.enable_debug = False
 
 model = parser.file_to_model(
-    "funl/examples/higher_lower_game.funl",
+    "funl/examples/perfect.funl",
     grammar.grammar
 )
 interpreter.interpret_model(model)
