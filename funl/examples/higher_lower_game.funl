@@ -4,6 +4,7 @@ target = rand(0, 100)
 tries = int(0)
 max_tries = int(5)
 
+-- Core game loop
 game_loop = {
     print(
         "(", tries(), "/", max_tries(),") ",
@@ -11,9 +12,11 @@ game_loop = {
     )
     guess = int(in())
 
+    -- Check win conditions
     eval(guess(), "==", target(), win_game)
     eval(tries(), ">=" max_tries(), loose_game)
 
+    -- Give hints
     eval(guess(), ">", target(), say_lower)
     eval(guess(), "<", target(), say_higher)
 
