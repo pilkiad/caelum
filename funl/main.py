@@ -28,7 +28,7 @@ from .utils import logger
 logger.enable_debug = False
 
 model = parser.file_to_model(
-    "funl/examples/basic_types.funl",
+    "funl/examples/functions.funl",
     grammar.grammar
 )
 interpreter.interpret_model(model)

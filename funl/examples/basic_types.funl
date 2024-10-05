@@ -1,1 +1,4 @@
 print("integers: int(value)", int(42))
+
+a = int(77)
+print("variables: a = int()", a())

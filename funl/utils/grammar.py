@@ -13,7 +13,7 @@ grammar = """
     FunctionDefinition: name=ID '=' (function=FunctionCall |
     code_block=CodeBlock);
     FunctionCall: name=ID '(' params*=Param (',' params*=Param)* ')';
-    CodeBlock: '{' content=/[^{}]*/ '}';
+    CodeBlock: '{' Model'}';
 
     Param: FunctionCall| INT | ID | STRING;
     Comment: /#.*$/;

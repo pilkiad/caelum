@@ -6,6 +6,8 @@ works
 """
 
 from .utils import logger
+from .utils import globalvars
+
 from .functions import f_print
 from .functions import f_int
 from .functions import f_add
@@ -37,8 +39,12 @@ def _evaluate_expression(statement: any) -> any:
 
     logger.log_debug("Interpreter", f"_evaluate_expression: {statement}")
 
+    if statement.__class__.__name__ == "Model":
+        interpret_model(statement)
     if statement.__class__.__name__ == "FunctionCall":
         return _evaluate_function_call(statement)
+    if statement.__class__.__name__ == "FunctionDefinition":
+        return _evaluate_function_definition(statement)
     else:
         return statement
 
@@ -48,13 +54,27 @@ def _evaluate_function_call(statement: any) -> any:
     TBD
     """
 
+    logger.log_debug("Interpreter", f"_evaluate_function_call: {statement.name}")
+
     evaluated_params = [_evaluate_expression(param) for param in statement.params]
 
     try:
-        native_call = FUNCTION_MAP[statement.name]
+        function_call = FUNCTION_MAP[statement.name]
     except KeyError:
-        raise Exception("Custom functions not implemented yet!")
+        function_call = globalvars.environment.get(statement.name)
+        if function_call is not None:
+            return _evaluate_expression(function_call)
+        else:
+            logger.log_error("Interpreter", f"Calling an unknown function: {statement.name}")
 
-    logger.log_debug("Interpreter", f"_process_function_call: {statement.name}")
+    return function_call(evaluated_params)
 
-    return native_call(evaluated_params)
+
+def _evaluate_function_definition(statement: any) -> any:
+    logger.log_debug("Interpreter", f"_evaluate_function_definition: {statement.name}")
+    if statement.function is not None:
+        globalvars.environment.update({statement.name: statement.function})
+    elif statement.code_block is not None:
+        globalvars.environment.update({statement.name: statement.code_block})
+    else:
+        logger.log_error("Interpreter", f"Invalid function definition: {statement.name}")
