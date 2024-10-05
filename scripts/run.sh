@@ -2,4 +2,4 @@
 # NOTE - run from root directory
 
 source venv/bin/activate
-python3 -m funl.funl
+python3 -m funl.main
