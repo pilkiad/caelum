@@ -20,6 +20,8 @@ that the example 'textx.Statement' refers to a textx object that corresponds
 to the 'Statement' class defined in our textx grammar.
 """
 
-from utils import logger    # logging
+from .utils import logger    # logging
+from .utils import grammar
+from . import parser
 
-logger.log_debug("Main", "Welcome to funl, traveler!")
+parser.file_to_model("refactored_funl/examples/hello_world.funl", grammar.grammar)

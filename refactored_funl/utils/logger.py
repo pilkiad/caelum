@@ -15,6 +15,9 @@ from colorama import Fore   # text foreground colors
 from colorama import Style  # text styling options
 
 
+enable_debug = True
+
+
 def log_error(
     component: str,
     message: str,
@@ -59,5 +62,8 @@ def log_debug(
     component: str          The module where the debug happened
     message: str            The debug message
     """
+
+    if not enable_debug:
+        return
     
     print(f"{Fore.CYAN}[Debug] {message} ({component}){Style.RESET_ALL}")

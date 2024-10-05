@@ -10,20 +10,7 @@ from funl.utils import logger
 
 # Example input
 input_code: str = """
-a = int(0)
-
-my_func = {
-    b = uint(1)
-
-    print("a() from global env: ")
-    print(cast(a(), str), n)
-    print("b() from local env: ")
-    print(cast(b(), str), n)
-}
-
-my_func()
-
-print(cast(b(), str), n)
+print("Hello, world!")
 """
 
 # Parse code to logger so we can find some infos one the statements later on

@@ -7,10 +7,10 @@ will later be given to the interpreter.
 
 from textx import metamodel_from_str    # converts input to textx model
 
-from utils import logger                # logging
+from .utils import logger               # logging
 
 
-def file_to_model(input_file_path: str, grammar: str) -> textx.Model:
+def file_to_model(input_file_path: str, grammar: str) -> any:
     """
     Calls on textx to convert an input file into a usable textx model by
     applying a given grammar to it.
@@ -22,13 +22,15 @@ def file_to_model(input_file_path: str, grammar: str) -> textx.Model:
     textx.Model             Resulting textx model
     """
 
+    logger.log_debug("Logger", f"Parsing '{input_file_path}'")
+
     with open(input_file_path) as file:
         input_text = file.read()
     
     return string_to_model(input_text, grammar)
 
 
-def string_to_model(input_text: str, grammar: str) -> textx.Model:
+def string_to_model(input_text: str, grammar: str) -> any:
     """
     Calls on textx to convert an input string into a usable textx model by
     applying a given grammar to it.
@@ -39,10 +41,12 @@ def string_to_model(input_text: str, grammar: str) -> textx.Model:
     textx.Model         Resulting textx model
     """
 
+    logger.log_debug("Logger", f"Parsing '{input_text}'")
+
     try:
-        metamodel = metamodel_from_str(funl_grammar)
-        model = metamodel.model_from_str(grammar, input_text)
-    except:
-        logger.log_error("Parser", "Could not parse input file")
+        metamodel = metamodel_from_str(grammar)
+        model = metamodel.model_from_str(input_text)
+    except Exception as e:
+        logger.log_error("Parser", f"Could not parse input file: {e}")
 
     return model
