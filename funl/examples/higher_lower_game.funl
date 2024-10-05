@@ -1,0 +1,36 @@
+println("Welcome to the higher-lower game! (0-100)")
+
+target = rand(0, 100)
+tries = int(0)
+max_tries = int(5)
+
+game_loop = {
+    print(
+        "(", tries(), "/", max_tries(),") ",
+        "Guess a number: "
+    )
+    guess = int(in())
+
+    eval(guess(), "==", target(), win_game)
+    eval(tries(), ">=" max_tries(), loose_game)
+
+    eval(guess(), ">", target(), say_lower)
+    eval(guess(), "<", target(), say_higher)
+
+    tries = add(tries(), int(1))
+    game_loop()
+}
+say_higher = { println(">> Higher!") }
+say_lower = { println(">> Lower!") }
+
+win_game = {
+    println("You win!")
+    exit()
+}
+
+loose_game = {
+    println("You lost!", "ʕノ•ᴥ•ʔノ ︵ ┻━┻")
+    exit()
+}
+
+game_loop()

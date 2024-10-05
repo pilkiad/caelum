@@ -1,0 +1,15 @@
+println("Printing 100 random numbers\n")
+
+i = int(0)
+
+loop = {
+    number = rand(0, 100)
+    print("#", i(), ": ", number())
+    println()
+
+    i = add(i(), int(1))
+    eval(i(), "<", 100, loop)
+}
+
+loop()
+println("Done!")

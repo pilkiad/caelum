@@ -11,6 +11,11 @@ from .utils import globalvars
 from .functions import f_print
 from .functions import f_int
 from .functions import f_add
+from .functions import f_in
+from .functions import f_eval
+from .functions import f_exit
+from .functions import f_rand
+from .functions import f_println
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -18,7 +23,12 @@ from .functions import f_add
 FUNCTION_MAP = {
     "print": f_print.handle,
     "int": f_int.handle,
-    "add": f_add.handle
+    "add": f_add.handle,
+    "in": f_in.handle,
+    "eval": f_eval.handle,
+    "exit": f_exit.handle,
+    "rand": f_rand.handle,
+    "println": f_println.handle
 }
 
 
@@ -67,14 +77,25 @@ def _evaluate_function_call(statement: any) -> any:
         else:
             logger.log_error("Interpreter", f"Calling an unknown function: {statement.name}")
 
-    return function_call(evaluated_params)
+    if statement.name == "eval":
+        _function_from_string(function_call(evaluated_params))
+    else:
+        return function_call(evaluated_params)
 
 
 def _evaluate_function_definition(statement: any) -> any:
     logger.log_debug("Interpreter", f"_evaluate_function_definition: {statement.name}")
     if statement.function is not None:
-        globalvars.environment.update({statement.name: statement.function})
+        globalvars.environment.update({statement.name: _evaluate_function_call(statement.function)})
     elif statement.code_block is not None:
         globalvars.environment.update({statement.name: statement.code_block})
     else:
         logger.log_error("Interpreter", f"Invalid function definition: {statement.name}")
+
+
+def _function_from_string(name: str) -> any:
+    function_call = globalvars.environment.get(name)
+    if function_call is not None:
+        interpret_model(function_call)
+    elif name is not None:
+        logger.log_error("Interpreter", f"Tried to call invalid function: {name}")
