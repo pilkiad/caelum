@@ -25,7 +25,7 @@ from . import interpreter
 from .utils import grammar
 from .utils import logger
 
-logger.enable_debug = True
+logger.enable_debug = False
 
 model = parser.file_to_model(
     "funl/examples/basic_types.funl",

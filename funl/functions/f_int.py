@@ -3,7 +3,6 @@ from ..utils import logger
 
 def handle(params: list[int]) -> int:
     """
-    int(param)
     Funl function to declare an integer by return the only given parameter as
     int.
 

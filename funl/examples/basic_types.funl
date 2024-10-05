@@ -1,2 +1,1 @@
-int(5)
-print(int(5))
+print("integers: int(value)", int(42))
