@@ -1,13 +1,13 @@
 """
-> .funl parser
+> funl parser
 
 This module takes in .funl files and produces interpretable textx models that
 will later be given to the interpreter.
 """
 
-from textx import metamodel_from_str    # converts input to textx model
+from textx import metamodel_from_str
 
-from .utils import logger               # logging
+from .utils import logger
 
 
 def file_to_model(input_file_path: str, grammar: str) -> any:
@@ -22,7 +22,7 @@ def file_to_model(input_file_path: str, grammar: str) -> any:
     textx.Model             Resulting textx model
     """
 
-    logger.log_debug("Logger", f"Parsing '{input_file_path}'")
+    logger.log_debug("Logger", f"file_to_model: {input_file_path}")
 
     with open(input_file_path) as file:
         input_text = file.read()
@@ -41,7 +41,7 @@ def string_to_model(input_text: str, grammar: str) -> any:
     textx.Model         Resulting textx model
     """
 
-    logger.log_debug("Logger", f"Parsing '{input_text}'")
+    logger.log_debug("Logger", f"string_to_model: {input_text}")
 
     try:
         metamodel = metamodel_from_str(grammar)

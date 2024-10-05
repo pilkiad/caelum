@@ -1,61 +1,69 @@
 """
-Provides functionality for simplified logging
+> Console logging
+
+This module provides easy ways to log text with varying verbosity levels to
+the console.
+
+There are multiple levels of verbosity:
+- info: information about the steps taken by the interpreter
+- error: errors that occured during interpretation
+- debug: information useful for debugging the interpreter itself
 """
 
-from textx import get_location
-from colorama import init as colorama_init
-from colorama import Fore
-from colorama import Style
-
-input_code: str = None
-last_statement: str = None
+from sys import exit        # quits the application on error
+from colorama import Fore   # text foreground colors
+from colorama import Style  # text styling options
 
 
-def err(errtype: str, reason: str, hints: list[str] = None) -> None:
+enable_debug = True
+
+
+def log_error(
+    component: str,
+    message: str,
+    quit_application: bool = True
+) -> None:
     """
-    Prints an error message to the console
-    SIDEEFFECT: exits the application with an error code
-
-    errtype: str    The type of error
-    reason: str     Customizable error message
+    Logs an error message to the console
+    
+    component: str          The module where the error happened
+    message: str            The error message
+    quit_application: bool  Whether or not the interpreter should exit after
+                            the error message was logged
     """
-    # TODO - turn errtype into enum
+    
+    print(f"{Fore.RED}[Error] {Style.RESET_ALL}{message} ({component})")
 
-    global last_statement
-    global input_code
-
-    # Prepare some useful information
-    location = get_location(last_statement)
-    line = location["line"] - 1
-    file = location["filename"]
-    start_pos = last_statement._tx_position
-    end_pos = last_statement._tx_position_end
-
-    print("")
-    print(
-        f"A {Fore.RED}critical error{Style.RESET_ALL} has occured in file "
-        + f"{Style.BRIGHT}{file}{Style.RESET_ALL} on line "
-        + f"{Style.BRIGHT}{line}{Style.RESET_ALL}:"
-    )
-    print(f"{Style.BRIGHT}{reason}{Style.RESET_ALL}")
-
-    if line != 0:
-        print(f"{Fore.LIGHTBLACK_EX}{input_code[start_pos:end_pos]}{Style.RESET_ALL}")
-
-    if hints is not None:
-        for msg in hints:
-            hint(msg)
-
-    exit(1)
+    if quit_application:
+        exit(-1)
 
 
-def hint(msg: str) -> None:
+def log_info(
+    component: str,
+    message: str
+) -> None:
     """
-    Prints a helpful message to the console
-
-    msg: str    The message to type
+    Logs an info message to the console
+    
+    component: str          The module where the info happened
+    message: str            The info message
     """
-    print(f"{Fore.BLUE}Hint: {Style.RESET_ALL}{msg}")
+    
+    print(f"{Fore.RESET}[Info] {message} ({component})")
 
 
-# TODO - add other logging levels, debug, info
+def log_debug(
+    component: str,
+    message: str
+) -> None:
+    """
+    Logs a debug message to the console
+    
+    component: str          The module where the debug happened
+    message: str            The debug message
+    """
+
+    if not enable_debug:
+        return
+    
+    print(f"{Fore.CYAN}[Debug] {message} ({component}){Style.RESET_ALL}")

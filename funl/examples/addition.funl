@@ -1,6 +1,0 @@
-a = int(2)
-b = int(3)
-
-result = add(a(), b())
-
-print(cast(result(), str))
