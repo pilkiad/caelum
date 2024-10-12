@@ -7,5 +7,5 @@ def handle(params: list[str]) -> None:
 
     params: list[str]   Params will be ignored
     """
-    
+
     sys.exit(0)

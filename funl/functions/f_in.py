@@ -4,5 +4,5 @@ def handle(params: list[str]) -> None:
 
     params: list[str]   Params will be ignored
     """
-    
+
     return input()

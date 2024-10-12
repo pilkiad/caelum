@@ -1,8 +1,11 @@
 println("Did you know that...")
+
 i = int(0)
+
 loop = {
     println("funl is considered to be *perfect*?")
     i = add(i(), int(1))
     eval(i(),"<",10,loop)
 }
+
 loop()

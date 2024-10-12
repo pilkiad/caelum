@@ -9,7 +9,7 @@ def handle(params: list[int]) -> int:
                         parses all parameters as arrays
                         (even if there is only one)
     """
-    
+
     if len(params) <= 1:
         logger.log_error("add", f"Invalid params: {params}")
 

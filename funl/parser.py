@@ -26,7 +26,7 @@ def file_to_model(input_file_path: str, grammar: str) -> any:
 
     with open(input_file_path) as file:
         input_text = file.read()
-    
+
     return string_to_model(input_text, grammar)
 
 

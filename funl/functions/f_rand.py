@@ -9,5 +9,5 @@ def handle(params: list[int]) -> int:
 
     params: list[int]   param[0] is min, param[1] is max
     """
-    
+
     return random.randint(params[0], params[1])

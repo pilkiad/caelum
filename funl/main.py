@@ -20,16 +20,20 @@ that the example 'textx.Statement' refers to a textx object that corresponds
 to the 'Statement' class defined in our textx grammar.
 """
 
+# TODO - add line where error happened to output
+# TODO - add more comments
+# TODO - pass parameters to functions called by eval
+# TODO - define parameter types
+# TODO - function returns
+
 from . import parser
 from . import interpreter
 from .utils import grammar
 from .utils import logger
 
+# TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model(
-    "funl/examples/perfect.funl",
-    grammar.grammar
-)
+model = parser.file_to_model("funl/examples/higher_lower_game.funl", grammar.grammar)
 interpreter.interpret_model(model)
 print("")

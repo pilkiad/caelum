@@ -13,8 +13,8 @@ def handle(params: list[str]) -> str | None:
                         "{params[0]} {params[1]} {params[2]}" is True,
                         None otherwise
     """
-    
+
     if eval(f"{params[0]} {params[1]} {params[2]}"):
         return params[3]
-    
+
     return None

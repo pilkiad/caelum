@@ -10,7 +10,7 @@ def handle(params: list[int]) -> int:
                         parses all parameters as arrays
                         (even if there is only one)
     """
-    
+
     if len(params) != 1:
         logger.log_error("int", f"Invalid params: {params}")
 
@@ -18,5 +18,5 @@ def handle(params: list[int]) -> int:
         value = int(params[0])
     except:
         logger.log_error("int", f"Invalid param: {params[0]}")
-    
+
     return value
