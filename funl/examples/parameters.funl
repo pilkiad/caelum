@@ -3,3 +3,5 @@ my_func = (a) {
 }
 
 my_func("hello, func")
+
+print(a())

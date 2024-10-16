@@ -22,9 +22,12 @@ to the 'Statement' class defined in our textx grammar.
 
 # TODO - add line where error happened to output
 # TODO - add more comments
+
+# TODO - PARAMETERS:
 # TODO - pass parameters to functions called by eval
 # TODO - define parameter types
 # TODO - function returns
+# TODO - parameters never go out of scope
 
 from . import parser
 from . import interpreter
@@ -34,6 +37,6 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("funl/examples/higher_lower_game.funl", grammar.grammar)
+model = parser.file_to_model("funl/examples/parameters.funl", grammar.grammar)
 interpreter.interpret_model(model)
 print("")
