@@ -1,6 +1,7 @@
 __pycache__/
 venv/
 *.backup
+*.insyncdl
 tags/*
 tags/
 tags

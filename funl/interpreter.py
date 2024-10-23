@@ -33,25 +33,35 @@ FUNCTION_MAP = {
 }
 
 
-def interpret_model(model: any) -> None:
+def interpret_model(model: any) -> any:
     """
-    TBD
+    Interprets any funl textx.Model!
+
+    model: textx.Model
+
+    Returns the model itself (usefull for some recursion stuff later down the
+    line?)
     """
 
     for statement in model.statement:
         logger.log_debug("Interpreter", f"interpret_model: {statement}")
         _evaluate_expression(statement)
 
+    return model
+
 
 def _evaluate_expression(statement: any) -> any:
     """
-    TBD
+    Handler function for all expressions
+    Simply calls the responsible - more specific - handler functions
+
+    statement: textx.Statement
     """
 
     logger.log_debug("Interpreter", f". _evaluate_expression: {statement}")
 
     if statement.__class__.__name__ == "Model":
-        interpret_model(statement)
+        return interpret_model(statement)
     if statement.__class__.__name__ == "FunctionCall":
         return _evaluate_function_call(statement)
     if statement.__class__.__name__ == "FunctionDefinition":
@@ -62,57 +72,100 @@ def _evaluate_expression(statement: any) -> any:
 
 def _evaluate_function_call(statement: any) -> any:
     """
-    TBD
+    Handler function for native and custom function calls
+    Simply evaluates their parameters and gives the info to the corresponding
+    handler function
+
+    statement: textx.FunctionCall
+
+    Returns whatever the function call returned
     """
 
     logger.log_debug("Interpreter", f".. _evaluate_function_call: {statement.name}")
 
+    # All parameters of function calls should be evaluated before calling
     evaluated_params = [_evaluate_expression(param) for param in statement.params]
-    # TODO - think of something better than bool
-    call_to_inbuilt = False
 
-    try:
+    # Check if the function is native
+    if statement.name in FUNCTION_MAP:
         function_call = FUNCTION_MAP[statement.name]
-        call_to_inbuilt = True
-    except KeyError:
-        function_call = globalvars.get_function_from_name(statement.name)
+        return _evaluate_native_function_call(statement.name, function_call, evaluated_params)
+
+    # Check if the function is custom
+    function_call = globalvars.get_function_from_name(statement.name)
+    return _evaluate_custom_function_call(function_call, evaluated_params)
 
     if function_call is None:
         logger.log_error(
             "Interpreter", f"Calling an unknown function: {statement.name}"
         )
 
-    #        if function_call is not None:
-    #            return _evaluate_expression(function_call)
-    #        else:
-    #            logger.log_error(
-    #                "Interpreter", f"Calling an unknown function: {statement.name}"
-    #            )
+def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
+    """
+    Handler function for native function calls (print, int, ...)
 
-    if statement.name == "eval":
-        # FIXME - does this work?
-        _function_from_string(function_call(evaluated_params))
-        return
+    name: str   The name of the native function
+    handler: any    The handler function for the native function,
+                    i.e functions/print.handle
+    params: any     List of parameters to be given the function,
+                    have to be previously evaluated
 
-    if call_to_inbuilt:
-        return function_call(evaluated_params)
-    elif function_call.code_block is not None:
-        for i in range(0, len(function_call.params_in)):
-            result = FunctionDefinition(
-                name=function_call.params_in[i], params_out=evaluated_params[i]
-            )
-            globalvars.environment.append(result)
-        return _evaluate_expression(function_call.code_block)
-    elif function_call.params_out is not None:
-        return function_call.params_out
+    Returns whatever the native function call returned
+    """
+
+    logger.log_debug(
+        "Interpreter", f"_evaluate_native_function_call: {name}"
+    )
+
+    # Special case eval: the return value has to be 
+    if name == "eval":
+        return _call_function_from_string(handler(params))
+
+    return handler(params)
 
 
-def _evaluate_function_definition(statement: any) -> any:
+def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -> any:
+    """
+    Handler function for primitive or custom function calls (functions defined
+    by the user). Will evaluate a custom function as a textx.Model
+
+    statement: textx.FunctionCall
+    params: any                     List of parameters to be given the function,
+                                    have to be previously evaluated
+
+    Returns primitive function output in case of primitive function call
+    Returns textx.Model in case of custom function call
+    """
+
+    # Primitive functions simply return their output parameter that has been
+    # computed on definition
+    if statement.code_block is None and statement.params_out is not None:
+        return statement.params_out
+
+    # Custom functions first need all of the input parameters put into the
+    # current environment
+    for i in range(0, len(statement.params_in)):
+        result = FunctionDefinition(
+            name=statement.params_in[i], params_out=params[i]
+        )
+        globalvars.environment.append(result)
+
+    # Call the new code block (will be textx.model) with the params now in env
+    return _evaluate_expression(statement.code_block)
+
+
+def _evaluate_function_definition(statement: any) -> None:
+    """
+    Handler function for when the user defines a function
+
+    statement: textx.FunctionDefinition
+    """
+
     logger.log_debug(
         "Interpreter", f".. _evaluate_function_definition: {statement.name}"
     )
 
-    # Case: function definition contains one function call i.e x = int()
+    # Primitive functions simply store their output parameter for later user
     if statement.function is not None:
         globalvars.append_or_update(
             FunctionDefinition(
@@ -120,7 +173,8 @@ def _evaluate_function_definition(statement: any) -> any:
             )
         )
 
-    # Case: function definition contains code block i.e my_func = {}
+    # Custom functions are defined with a code block and parameters that reference
+    # variables to that needs to be stored
     elif statement.code_block is not None:
         globalvars.append_or_update(
             FunctionDefinition(
@@ -136,14 +190,19 @@ def _evaluate_function_definition(statement: any) -> any:
         )
 
 
-def _function_from_string(name: str) -> any:
+def _call_function_from_string(name: str) -> any:
+    """
+    Calls a custom function based on the function name provided as string
+
+    name: str   Name of the function, can be None
+    """
+
     logger.log_debug("Interpreter", f"... _function_from_string: {name}")
 
     function_call = globalvars.get_function_from_name(name)
 
     if function_call is not None and function_call.code_block is not None:
-        interpret_model(function_call.code_block)
-        return
+        return interpret_model(function_call.code_block)
 
     # Can't raise an error if no name was given,
     # because eval() may return None if evaluated statement is false
