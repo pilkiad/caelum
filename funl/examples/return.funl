@@ -1,0 +1,14 @@
+version("a-1")
+
+my_func = {
+    println("I am returning an int(1)")
+
+    return(int(1))
+}
+
+result = my_func()
+
+print("I received: ")
+println(result())
+
+print("I added 5 to it: ", add(result(), int(5)))

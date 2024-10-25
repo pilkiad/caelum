@@ -18,6 +18,7 @@ from .functions import f_exit
 from .functions import f_rand
 from .functions import f_println
 from .functions import f_version
+from .functions import f_return
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -32,6 +33,7 @@ FUNCTION_MAP = {
     "rand": f_rand.handle,
     "println": f_println.handle,
     "version": f_version.handle,
+    "return": f_return.handle
 }
 
 
@@ -47,7 +49,11 @@ def interpret_model(model: any) -> any:
 
     for statement in model.statement:
         logger.log_debug("Interpreter", f"interpret_model: {statement}")
-        _evaluate_expression(statement)
+
+        result = _evaluate_expression(statement)
+
+        if statement.name == "return":
+            return result
 
     return model
 
@@ -154,6 +160,10 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     # current environment
     if hasattr(statement, "params_in") and statement.params_in is not None:
         logger.log_debug("interpreter", "... (custom)")
+
+        if len(params) != len(statement.params_in):
+            logger.log_error("interpreter", f"Incorrect parameters for '{statement.name}'. Got: {params} Expected: {statement.params_in}")
+
         for i in range(0, len(statement.params_in)):
             result = FunctionDefinition(
                 name=statement.params_in[i], params_out=params[i]
@@ -163,7 +173,7 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
         # Call the new code block (will be textx.model) with the params now in env
         return _evaluate_expression(statement.code_block)
 
-    print("this should not jhappen")
+    logger.log_error("interpreter", "this should not happend")
 
 
 def _evaluate_function_definition(statement: any) -> None:

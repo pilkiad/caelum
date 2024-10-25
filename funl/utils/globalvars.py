@@ -20,7 +20,7 @@ function and custom functions.
 from .function_definition import FunctionDefinition
 
 
-VERSION = "a-0"
+VERSION = "a-1"
 environment: list[FunctionDefinition] = []
 
 
