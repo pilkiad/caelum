@@ -1,11 +1,11 @@
-version("a-0")
+version("a-1")
 
-println("Printing 100 random numbers\n")
+println("Printing 100 random numbers")
 
 i = int(0)
 
 loop = {
-    number = rand(0, 100)
+    number = rint(0, 100)
     print("#", i(), ": ", number())
     println("")
 

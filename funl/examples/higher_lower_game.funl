@@ -1,11 +1,9 @@
+version("a-1")
+
 println("Welcome to the higher-lower game! (0-100)")
 
-target = rand(0, 100)
-tries = int(0)
-max_tries = int(5)
-
 -- Core game loop
-game_loop = {
+game_loop = (target, tries, max_tries) {
     print(
         "(", tries(), "/", max_tries(),") ",
         "Guess a number: "
@@ -20,8 +18,11 @@ game_loop = {
     eval(guess(), ">", target(), say_lower)
     eval(guess(), "<", target(), say_higher)
 
-    tries = add(tries(), int(1))
-    game_loop()
+    game_loop(
+        target(),
+        add(tries(), int(1)),
+        max_tries()
+    )
 }
 say_higher = { println(">> Higher!") }
 say_lower = { println(">> Lower!") }
@@ -36,4 +37,8 @@ loose_game = {
     exit()
 }
 
-game_loop()
+game_loop(
+    rint(0, 100),
+    int(0),
+    int(5)
+)

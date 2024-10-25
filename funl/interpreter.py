@@ -30,7 +30,7 @@ FUNCTION_MAP = {
     "in": f_in.handle,
     "eval": f_eval.handle,
     "exit": f_exit.handle,
-    "rand": f_rand.handle,
+    "rint": f_rand.handle,
     "println": f_println.handle,
     "version": f_version.handle,
     "return": f_return.handle,
@@ -154,17 +154,17 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     # Primitive functions simply return their output parameter that has been
     # computed on definition
     if statement.code_block is None and statement.params_out is not None:
-        logger.log_debug("interpreter", "... (primitive)")
+        logger.log_debug("Interpreter", "... (primitive)")
         return statement.params_out
 
     # Custom functions first need all of the input parameters put into the
     # current environment
     if hasattr(statement, "params_in") and statement.params_in is not None:
-        logger.log_debug("interpreter", "... (custom)")
+        logger.log_debug("Interpreter", "... (custom)")
 
         if len(params) != len(statement.params_in):
             logger.log_error(
-                "interpreter",
+                "Interpreter",
                 f"Incorrect parameters for '{statement.name}'. Got: {params} Expected: {statement.params_in}",
             )
 
@@ -172,12 +172,13 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
             result = FunctionDefinition(
                 name=statement.params_in[i], params_out=params[i]
             )
-            globalvars.environment.append(result)
+            logger.log_debug("Interpreter", f"... -> {result}")
+            globalvars.append_or_update(result)
 
         # Call the new code block (will be textx.model) with the params now in env
         return _evaluate_expression(statement.code_block)
 
-    logger.log_error("interpreter", "this should not happend")
+    logger.log_error("Interpreter", "this should not happend")
 
 
 def _evaluate_function_definition(statement: any) -> None:

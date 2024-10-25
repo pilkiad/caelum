@@ -16,6 +16,7 @@ function and custom functions.
 """
 
 # TODO - make environment a list
+# TODO - create environment.py instead
 
 from .function_definition import FunctionDefinition
 
