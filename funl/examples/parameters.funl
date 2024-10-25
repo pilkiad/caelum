@@ -1,3 +1,5 @@
+version("a-0")
+
 my_func = (a) {
     print(a())
 }

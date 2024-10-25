@@ -17,6 +17,7 @@ from .functions import f_eval
 from .functions import f_exit
 from .functions import f_rand
 from .functions import f_println
+from .functions import f_version
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -30,6 +31,7 @@ FUNCTION_MAP = {
     "exit": f_exit.handle,
     "rand": f_rand.handle,
     "println": f_println.handle,
+    "version": f_version.handle,
 }
 
 

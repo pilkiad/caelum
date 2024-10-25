@@ -37,7 +37,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("funl/examples/parameters.funl", grammar.grammar)
+model = parser.file_to_model("funl/examples/loop.funl", grammar.grammar)
 interpreter.interpret_model(model)
 
 # FIXME - What even is this
