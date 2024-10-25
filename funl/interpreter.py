@@ -33,7 +33,7 @@ FUNCTION_MAP = {
     "rand": f_rand.handle,
     "println": f_println.handle,
     "version": f_version.handle,
-    "return": f_return.handle
+    "return": f_return.handle,
 }
 
 
@@ -97,7 +97,9 @@ def _evaluate_function_call(statement: any) -> any:
     # Check if the function is native
     if statement.name in FUNCTION_MAP:
         function_call = FUNCTION_MAP[statement.name]
-        return _evaluate_native_function_call(statement.name, function_call, evaluated_params)
+        return _evaluate_native_function_call(
+            statement.name, function_call, evaluated_params
+        )
 
     # Check if the function is custom
     function_call = globalvars.get_function_from_name(statement.name)
@@ -108,6 +110,7 @@ def _evaluate_function_call(statement: any) -> any:
         logger.log_error(
             "Interpreter", f"Calling an unknown function: {statement.name}"
         )
+
 
 def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
     """
@@ -122,11 +125,9 @@ def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
     Returns whatever the native function call returned
     """
 
-    logger.log_debug(
-        "Interpreter", f"... _evaluate_native_function_call: {name}"
-    )
+    logger.log_debug("Interpreter", f"... _evaluate_native_function_call: {name}")
 
-    # Special case eval: the return value has to be 
+    # Special case eval: the return value has to be
     if name == "eval":
         return _call_function_from_string(handler(params))
 
@@ -162,7 +163,10 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
         logger.log_debug("interpreter", "... (custom)")
 
         if len(params) != len(statement.params_in):
-            logger.log_error("interpreter", f"Incorrect parameters for '{statement.name}'. Got: {params} Expected: {statement.params_in}")
+            logger.log_error(
+                "interpreter",
+                f"Incorrect parameters for '{statement.name}'. Got: {params} Expected: {statement.params_in}",
+            )
 
         for i in range(0, len(statement.params_in)):
             result = FunctionDefinition(
@@ -191,7 +195,8 @@ def _evaluate_function_definition(statement: any) -> None:
     if statement.function is not None:
         globalvars.append_or_update(
             FunctionDefinition(
-                name=statement.name, params_out=_evaluate_function_call(statement.function)
+                name=statement.name,
+                params_out=_evaluate_function_call(statement.function),
             )
         )
 

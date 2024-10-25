@@ -4,6 +4,8 @@ my_func = {
     println("I am returning an int(1)")
 
     return(int(1))
+
+    println("This should not be printed")
 }
 
 result = my_func()

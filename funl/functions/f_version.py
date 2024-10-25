@@ -13,7 +13,12 @@ def handle(params: list[str]) -> int:
         logger.log_error("version", f"Invalid params: {params}")
 
     if params[0] != globalvars.VERSION:
-        logger.log_error("version", ("Running application on incorrect funl version. "
-                         f"Got: '{globalvars.VERSION}' Expected: '{params[0]}'"))
+        logger.log_error(
+            "version",
+            (
+                "Running application on incorrect funl version. "
+                f"Got: '{globalvars.VERSION}' Expected: '{params[0]}'"
+            ),
+        )
 
     return True
