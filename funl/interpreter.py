@@ -93,7 +93,8 @@ def _evaluate_function_call(statement: any) -> any:
 
     # Check if the function is custom
     function_call = globalvars.get_function_from_name(statement.name)
-    return _evaluate_custom_function_call(function_call, evaluated_params)
+    if function_call is not None:
+        return _evaluate_custom_function_call(function_call, evaluated_params)
 
     if function_call is None:
         logger.log_error(
@@ -114,7 +115,7 @@ def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
     """
 
     logger.log_debug(
-        "Interpreter", f"_evaluate_native_function_call: {name}"
+        "Interpreter", f"... _evaluate_native_function_call: {name}"
     )
 
     # Special case eval: the return value has to be 
@@ -137,21 +138,30 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     Returns textx.Model in case of custom function call
     """
 
+    logger.log_debug(
+        "Interpreter", f"... _evaluate_custom_function_call: {statement.name}"
+    )
+
     # Primitive functions simply return their output parameter that has been
     # computed on definition
     if statement.code_block is None and statement.params_out is not None:
+        logger.log_debug("interpreter", "... (primitive)")
         return statement.params_out
 
     # Custom functions first need all of the input parameters put into the
     # current environment
-    for i in range(0, len(statement.params_in)):
-        result = FunctionDefinition(
-            name=statement.params_in[i], params_out=params[i]
-        )
-        globalvars.environment.append(result)
+    if hasattr(statement, "params_in") and statement.params_in is not None:
+        logger.log_debug("interpreter", "... (custom)")
+        for i in range(0, len(statement.params_in)):
+            result = FunctionDefinition(
+                name=statement.params_in[i], params_out=params[i]
+            )
+            globalvars.environment.append(result)
 
-    # Call the new code block (will be textx.model) with the params now in env
-    return _evaluate_expression(statement.code_block)
+        # Call the new code block (will be textx.model) with the params now in env
+        return _evaluate_expression(statement.code_block)
+
+    print("this should not jhappen")
 
 
 def _evaluate_function_definition(statement: any) -> None:
