@@ -1,0 +1,26 @@
+funl reference cheat sheet
+==========================
+
+NAME    PARAMS      DESCRIPTION                     RETURNS
+version str         Check if the application is     True if version is correct,
+                    being run using the correct     errors otherwise
+                    funl version
+eval    any, str,   Evaluates a statement           Name of function if
+        any, str    consisting of the first three   statement is corret, None
+                    params, calls a custom function otherwise
+                    with the name of params[3] if
+                    statement is evaluated as true.
+                    Typical form: eval(VALUE, "<",
+                    VALUE, FUNCTION_NAME)
+int     int         An integer value                Input param
+rint    int, int    Generates a random int between  Random int
+                    first and second param
+add     [int]       Adds all params together        Addition result as int
+in      -           Takes in user input and returns User input as int
+                    as string
+print   [str]       Prints params to console        What was printed
+println [str]       Same as print but adds          What was printed
+                    linebreak to each param
+return  [any]       Returns from function scope and Input params
+                    gives params to caller function
+exit    -           Exits the application           -

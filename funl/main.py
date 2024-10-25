@@ -26,7 +26,6 @@ to the 'Statement' class defined in our textx grammar.
 # TODO - PARAMETERS:
 # TODO - pass parameters to functions called by eval
 # TODO - define parameter types
-# TODO - function returns
 # TODO - parameters never go out of scope
 
 from . import parser
