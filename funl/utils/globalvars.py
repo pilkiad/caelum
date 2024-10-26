@@ -15,14 +15,13 @@ function and custom functions.
     all or their information in the environment.
 """
 
-# TODO - make environment a list
 # TODO - create environment.py instead
 
 from .function_definition import FunctionDefinition
 
 
 VERSION = "a-2"
-environment: list[FunctionDefinition] = []
+environment: list[list[FunctionDefinition]] = [[]]
 
 
 def get_function_from_name(name: str) -> FunctionDefinition | None:
