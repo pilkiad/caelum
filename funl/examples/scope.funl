@@ -4,7 +4,8 @@ scope = (a) {
     change_a = { a = int(666) }
     println("Step 1:", a())
     eval(a(), "==", int(77), change_a)
+    println("Step 2:", a())
 }
 
 scope(int(77))
-println("Step 2:", a())
+println("Step 3:", a())
