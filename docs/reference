@@ -5,9 +5,9 @@ NAME    PARAMS      DESCRIPTION                     RETURNS
 version str         Check if the application is     True if version is correct,
                     being run using the correct     errors otherwise
                     funl version
-eval    any, str,   Evaluates a statement           Name of function if
-        any, str    consisting of the first three   statement is corret, None
-                    params, calls a custom function otherwise
+eval    any, str,   Evaluates a statement           The return of the function
+        any, str    consisting of the first three   that was called if statement
+                    params, calls a custom function is correct, None otherwise
                     with the name of params[3] if
                     statement is evaluated as true.
                     Typical form: eval(VALUE, "<",

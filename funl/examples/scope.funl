@@ -1,0 +1,10 @@
+version("a-2")
+
+scope = (a) {
+    change_a = { a = int(666) }
+    println("Step 1:", a())
+    eval(a(), "==", int(77), change_a)
+}
+
+scope(int(77))
+println("Step 2:", a())

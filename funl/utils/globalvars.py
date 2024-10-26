@@ -21,7 +21,7 @@ function and custom functions.
 from .function_definition import FunctionDefinition
 
 
-VERSION = "a-1"
+VERSION = "a-2"
 environment: list[FunctionDefinition] = []
 
 

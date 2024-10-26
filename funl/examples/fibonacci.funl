@@ -1,0 +1,21 @@
+version("a-2")
+
+fib = (n) {
+    case_0 = { return(n()) }
+
+    return(eval(n(), "<=", int(1), case_0))
+
+    print("fib n-1: ", fib(sub(n(), int(1))), " ")
+    print("fib n-2: ", fib(sub(n(), int(2))), " ")
+    return(add(
+        fib(sub(n(), int(1))),
+        fib(sub(n(), int(2)))
+    ))
+}
+
+print("fib(n) where n=")
+input = in()
+input_int = int(input())
+res = fib(input_int())
+
+print("Result: ", res())

@@ -1,0 +1,12 @@
+version("a-2")
+
+a = int(5)
+b = int(3)
+
+res = sub(a(), b())
+
+print(
+    "a() - b() = ",
+    a(), " - ", b(), " = "
+    res()
+)

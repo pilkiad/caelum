@@ -21,6 +21,6 @@ def handle(params: list[int]) -> int:
         except:
             logger.log_error("add", f"Invalid param: {param}")
 
-        result += param
+        result += value
 
     return result

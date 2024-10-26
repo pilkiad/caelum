@@ -19,6 +19,7 @@ from .functions import f_rand
 from .functions import f_println
 from .functions import f_version
 from .functions import f_return
+from .functions import f_sub
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -34,6 +35,7 @@ FUNCTION_MAP = {
     "println": f_println.handle,
     "version": f_version.handle,
     "return": f_return.handle,
+    "sub": f_sub.handle
 }
 
 
@@ -52,7 +54,7 @@ def interpret_model(model: any) -> any:
 
         result = _evaluate_expression(statement)
 
-        if statement.name == "return":
+        if statement.name == "return" and result is not None:
             return result
 
     return model
@@ -178,7 +180,7 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
         # Call the new code block (will be textx.model) with the params now in env
         return _evaluate_expression(statement.code_block)
 
-    logger.log_error("Interpreter", "this should not happend")
+    logger.log_error("Interpreter", f"None reference: {statement}")
 
 
 def _evaluate_function_definition(statement: any) -> None:
