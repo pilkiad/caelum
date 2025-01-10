@@ -60,6 +60,7 @@ def interpret_model(model: any) -> any:
         if statement.name == "return" and result is not None:
             return result
 
+    environment.pop()
     return model
 
 
@@ -157,22 +158,28 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     )
 
     # Primitive functions simply return their output parameter that has been
-    # computed on definition
+    # computed on definition, i.e. int()
     if statement.code_block is None and statement.params_out is not None:
-        logger.log_debug("Interpreter", "... (primitive)")
+        logger.log_debug("Interpreter", "... (function is primitive)")
         return statement.params_out
 
     # Custom functions first need all of the input parameters put into the
     # current environment
     if hasattr(statement, "params_in") and statement.params_in is not None:
-        logger.log_debug("Interpreter", "... (custom)")
+        logger.log_debug("Interpreter", "... (function is custom)")
 
+        # Before creating the parameters, we need to create a new environment in
+        # which the called function will operate
+        environment.new()
+
+        # Check if the correct number of parameters is given as input in the call
         if len(params) != len(statement.params_in):
             logger.log_error(
                 "Interpreter",
                 f"Incorrect parameters for '{statement.name}'. Got: {params} Expected: {statement.params_in}",
             )
 
+        # Compute all input parameters
         for i in range(0, len(statement.params_in)):
             result = FunctionDefinition(
                 name=statement.params_in[i], params_out=params[i]

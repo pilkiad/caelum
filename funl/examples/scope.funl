@@ -9,6 +9,3 @@ scope = (a) {
 }
 
 scope(int(77))
-
--- not yet implemented
-assert(a(), None, "a() has been declared by scope(a)")
