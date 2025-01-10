@@ -21,6 +21,7 @@ from .functions import f_println
 from .functions import f_version
 from .functions import f_return
 from .functions import f_sub
+from .functions import f_assert
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -36,7 +37,8 @@ FUNCTION_MAP = {
     "println": f_println.handle,
     "version": f_version.handle,
     "return": f_return.handle,
-    "sub": f_sub.handle
+    "sub": f_sub.handle,
+    "assert": f_assert.handle
 }
 
 
