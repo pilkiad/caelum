@@ -7,6 +7,7 @@ works
 
 from .utils import logger
 from .utils import globalvars
+from .utils import environment
 from .utils.function_definition import FunctionDefinition
 
 from .functions import f_print
@@ -104,7 +105,7 @@ def _evaluate_function_call(statement: any) -> any:
         )
 
     # Check if the function is custom
-    function_call = globalvars.get_function_from_name(statement.name)
+    function_call = environment.get_function_from_name(statement.name)
     if function_call is not None:
         return _evaluate_custom_function_call(function_call, evaluated_params)
 
@@ -175,7 +176,7 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
                 name=statement.params_in[i], params_out=params[i]
             )
             logger.log_debug("Interpreter", f"... -> {result}")
-            globalvars.append_or_update(result)
+            environment.append_or_update(result)
 
         # Call the new code block (will be textx.model) with the params now in env
         return _evaluate_expression(statement.code_block)
@@ -196,7 +197,7 @@ def _evaluate_function_definition(statement: any) -> None:
 
     # Primitive functions simply store their output parameter for later user
     if statement.function is not None:
-        globalvars.append_or_update(
+        environment.append_or_update(
             FunctionDefinition(
                 name=statement.name,
                 params_out=_evaluate_function_call(statement.function),
@@ -206,7 +207,7 @@ def _evaluate_function_definition(statement: any) -> None:
     # Custom functions are defined with a code block and parameters that reference
     # variables to that needs to be stored
     elif statement.code_block is not None:
-        globalvars.append_or_update(
+        environment.append_or_update(
             FunctionDefinition(
                 name=statement.name,
                 code_block=statement.code_block,
@@ -229,7 +230,7 @@ def _call_function_from_string(name: str) -> any:
 
     logger.log_debug("Interpreter", f"... _function_from_string: {name}")
 
-    function_call = globalvars.get_function_from_name(name)
+    function_call = environment.get_function_from_name(name)
 
     if function_call is not None and function_call.code_block is not None:
         return interpret_model(function_call.code_block)

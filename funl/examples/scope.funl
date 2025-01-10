@@ -1,11 +1,13 @@
-version("a-2")
+version("a-3")
 
 scope = (a) {
     change_a = { a = int(666) }
-    println("Step 1:", a())
-    eval(a(), "==", int(77), change_a)
-    println("Step 2:", a())
+    println("Step 1:", a())     -- Expected: 77
+    change_a()
+    println("Step 2:", a())     -- Expected: 77
 }
 
+-- Pass 77 into function
 scope(int(77))
-println("Step 3:", a())
+
+println("Step 3:", a())         -- Expected: exception

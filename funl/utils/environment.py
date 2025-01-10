@@ -1,6 +1,7 @@
 # TODO - add module comment
 
 from . import globalvars
+from .function_definition import FunctionDefinition
 
 
 def get_function_from_name(name: str, index: int = -1) -> FunctionDefinition | None:
@@ -15,10 +16,25 @@ def get_function_from_name(name: str, index: int = -1) -> FunctionDefinition | N
 
 
 def get_function_index_from_name(name: str, index: int = -1) -> int | None:
+    """
+    Fetches a custom function index inside of its environment
+    Will default to the current environment but an environment index can be specified
+
+    name: str   The name of the function
+    index: int  The index of the environment, default: -1 to select the current
+                local environment
+
+    The index of the function in its environment if found,
+    None otherwise
+    """
+
+    # Search in the environment with the specified index
     for i in range(0, len(globalvars.environment[index])):
-        if globalvars.environment[i].name == name:
+        # Go through all entries in the environment
+        if globalvars.environment[index][i].name == name:
             return i
 
+    # FIXME - i do not know why i wrote this or what it does
     if index != len(globalvars.environment) * -1:
         return get_function_from_name(name, index=(index-1))
     else:
