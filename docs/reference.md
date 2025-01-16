@@ -8,8 +8,8 @@ Found below are all funl keywords in alphabetical order.
 | ---   | ---           | ---           | ---           |
 | add | `[int, ...]` | `int` | Adds `param[0..]` |
 | assert | `any`, `any` | `bool` | Asserts that `param[0]` is equal to `param[1]`. Returns `1` if parameters are requal, `0` otherwise. |
-| eval | `any`, `str`, `any`, `str` | Return value of `param[3]()` if evaluated as `1`, `none` otherwise | Evaluates a statement `param[0..2]` and calls `param[3]` if statement evaluates as `1`. |
-| exit |  |  | Exits the application |
+| eval | `any`, `str`, `any`, `str` | Return value of `param[3]()` if evaluated as `1`, `none` otherwise | Evaluates a statement `param[0..2]` and calls `param[3]` if statement evaluates as `1`. NOTE `param[3]` will be executed as a code block in the same environment as the caller function. |
+| exit |  |  | Exits the application. |
 | in |  | `str` | Reads stdin. Returns the users input. |
 | int | `int` | `int` | Integer value. Returns whatever was given as `param[0]` |
 | print | `[str, ...]` | `str` | Prints `param[0..]` to console. Returns the resulting `str` |
