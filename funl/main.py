@@ -28,6 +28,8 @@ to the 'Statement' class defined in our textx grammar.
 # TODO - define parameter types
 # TODO - parameters never go out of scope
 
+# FIXME - possibly i call environment.new a lot less times than environment.pop?
+
 from . import parser
 from . import interpreter
 from .utils import grammar
@@ -36,7 +38,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("funl/examples/scope.funl", grammar.grammar)
+model = parser.file_to_model("funl/examples/fibonacci.funl", grammar.grammar)
 interpreter.interpret_model(model)
 
 # FIXME - What even is this

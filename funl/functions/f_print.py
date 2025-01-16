@@ -8,7 +8,7 @@ def handle(params: list[str]) -> None:
     result = ""
 
     for param in params:
-        print(str(param), end="")
+        print(str(param), end="", flush=True)
         result += str(param)
 
     return result
