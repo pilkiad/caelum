@@ -1,11 +1,11 @@
-version("a-2")
+version("a-3")
 
 scope = (a) {
+    assert(a(), int(77), "a() not passed into scope(a) correctly")
+
     change_a = { a = int(666) }
-    println("Step 1:", a())
-    eval(a(), "==", int(77), change_a)
-    println("Step 2:", a())
+    change_a()
+    assert(a(), int(77), "a() has been changed by inner change_a()")
 }
 
 scope(int(77))
-println("Step 3:", a())

@@ -15,34 +15,13 @@ function and custom functions.
     all or their information in the environment.
 """
 
-# TODO - make environment a list
 # TODO - create environment.py instead
 
 from .function_definition import FunctionDefinition
 
 
-VERSION = "a-2"
-environment: list[FunctionDefinition] = []
+VERSION = "a-3"
+# NOTE - this 2d array represents a number of enviromnents to store variables in,
+# for everey call to a function we move one index lower
+environment: list[list[FunctionDefinition]] = [[]]
 
-
-def get_function_from_name(name: str) -> FunctionDefinition | None:
-    for environment_function in environment:
-        if environment_function.name == name:
-            return environment_function
-    return None
-
-
-def get_function_index_from_name(name: str) -> int | None:
-    for i in range(0, len(environment)):
-        if environment[i].name == name:
-            return i
-    return None
-
-
-def append_or_update(function_definition: FunctionDefinition) -> None:
-    result = get_function_index_from_name(function_definition.name)
-
-    if result is not None:
-        environment[result] = function_definition
-    else:
-        environment.append(function_definition)

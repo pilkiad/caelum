@@ -1,0 +1,10 @@
+version("a-3")
+
+a = int(5)
+b = sub(a(), int(3))
+
+assert(a(), int(5), "a() has been altered by sub()")
+assert(b(), int(2) "b() was not calculated correctly")
+
+print("test print: ", sub(a(), int(3)))
+assert(a(), int(5), "a() has been altered by print() with a sub()")

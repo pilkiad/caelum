@@ -26,4 +26,4 @@ class FunctionDefinition:
         self.params_out = params_out
 
     def __str__(self) -> str:
-        return f"{self.name} = ({self.params_in}) ({self.params_out})"
+        return f"{self.name} = in({self.params_in}) out({self.params_out})"

@@ -7,6 +7,9 @@ works
 
 from .utils import logger
 from .utils import globalvars
+from .utils import environment
+from . import parser
+from .utils import grammar
 from .utils.function_definition import FunctionDefinition
 
 from .functions import f_print
@@ -20,6 +23,7 @@ from .functions import f_println
 from .functions import f_version
 from .functions import f_return
 from .functions import f_sub
+from .functions import f_assert
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -35,27 +39,50 @@ FUNCTION_MAP = {
     "println": f_println.handle,
     "version": f_version.handle,
     "return": f_return.handle,
-    "sub": f_sub.handle
+    "sub": f_sub.handle,
+    "assert": f_assert.handle
 }
 
+# Keeps track of the current call hirarchy depth
+depth: int = 0
 
-def interpret_model(model: any) -> any:
+def interpret_model(model: any, inline: bool = False) -> any:
     """
     Interprets any funl textx.Model!
 
-    model: textx.Model
+    model: textx.Model  The model to be executed
+    inline: bool        Whether or not the model shall NOT create a new environment
+                        Set to True when evaluating model defined in eval as the code
+                        specified should run in the same environment as the parent function
 
-    Returns the model itself (usefull for some recursion stuff later down the
-    line?)
+    Returns the model itself or its return value if explicitly defined
     """
+
+    if not inline:
+        global depth
+        depth += 1
 
     for statement in model.statement:
         logger.log_debug("Interpreter", f"interpret_model: {statement}")
 
         result = _evaluate_expression(statement)
 
-        if statement.name == "return" and result is not None:
+        # If return() was called the entire code block returns the result of
+        # that statement
+        if statement.name == "return":
+            if not inline:
+                depth -= 1
+                environment.pop()
+
             return result
+
+    # This gets called when we ran through an entire code block (function) without
+    # an explicit return. However it should not be called on the first code block
+    # (which is the entire application)
+    if not inline:
+        if depth > 1:
+            environment.pop()
+        depth -= 1
 
     return model
 
@@ -104,7 +131,7 @@ def _evaluate_function_call(statement: any) -> any:
         )
 
     # Check if the function is custom
-    function_call = globalvars.get_function_from_name(statement.name)
+    function_call = environment.get_function_from_name(statement.name)
     if function_call is not None:
         return _evaluate_custom_function_call(function_call, evaluated_params)
 
@@ -131,7 +158,13 @@ def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
 
     # Special case eval: the return value has to be
     if name == "eval":
-        return _call_function_from_string(handler(params))
+        eval_block_str = handler(params)
+        if eval_block_str is None:
+            return None
+        #logger.log_info("Interpreter", f"Evaluating: {eval_block_str}")
+        #environment.new()
+        return interpret_model(parser.string_to_model(handler(params), grammar.grammar), inline=True)
+        #return _call_function_from_string(handler(params))
 
     return handler(params)
 
@@ -154,33 +187,42 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     )
 
     # Primitive functions simply return their output parameter that has been
-    # computed on definition
+    # computed on definition, i.e. int()
     if statement.code_block is None and statement.params_out is not None:
-        logger.log_debug("Interpreter", "... (primitive)")
+        logger.log_debug("Interpreter", "... (function is primitive)")
         return statement.params_out
 
     # Custom functions first need all of the input parameters put into the
     # current environment
     if hasattr(statement, "params_in") and statement.params_in is not None:
-        logger.log_debug("Interpreter", "... (custom)")
+        logger.log_debug("Interpreter", "... (function is custom)")
 
+        # Before creating the parameters, we need to create a new environment in
+        # which the called function will operate
+        environment.new()
+
+        # Check if the correct number of parameters is given as input in the call
         if len(params) != len(statement.params_in):
             logger.log_error(
                 "Interpreter",
                 f"Incorrect parameters for '{statement.name}'. Got: {params} Expected: {statement.params_in}",
             )
 
+        # Compute all input parameters
         for i in range(0, len(statement.params_in)):
             result = FunctionDefinition(
                 name=statement.params_in[i], params_out=params[i]
             )
             logger.log_debug("Interpreter", f"... -> {result}")
-            globalvars.append_or_update(result)
+            environment.append_or_update(result)
 
         # Call the new code block (will be textx.model) with the params now in env
         return _evaluate_expression(statement.code_block)
 
-    logger.log_error("Interpreter", f"None reference: {statement}")
+    # FIXME - some functions may return None right now
+    # i believe there should be a custom datatype to represent "nothing"
+    # or we need to disallow non-initialized variables by design
+    logger.log_error("Interpreter", f"Tried to call undefined: {statement}")
 
 
 def _evaluate_function_definition(statement: any) -> None:
@@ -196,7 +238,7 @@ def _evaluate_function_definition(statement: any) -> None:
 
     # Primitive functions simply store their output parameter for later user
     if statement.function is not None:
-        globalvars.append_or_update(
+        environment.append_or_update(
             FunctionDefinition(
                 name=statement.name,
                 params_out=_evaluate_function_call(statement.function),
@@ -206,7 +248,7 @@ def _evaluate_function_definition(statement: any) -> None:
     # Custom functions are defined with a code block and parameters that reference
     # variables to that needs to be stored
     elif statement.code_block is not None:
-        globalvars.append_or_update(
+        environment.append_or_update(
             FunctionDefinition(
                 name=statement.name,
                 code_block=statement.code_block,
@@ -222,16 +264,23 @@ def _evaluate_function_definition(statement: any) -> None:
 
 def _call_function_from_string(name: str) -> any:
     """
+    CURRENTLY OBSOLETE, KEPT BECAUSE WE MIGHT NEED THIS AT SOME POINT
+
     Calls a custom function based on the function name provided as string
+    Usually called by eval()
 
     name: str   Name of the function, can be None
     """
 
     logger.log_debug("Interpreter", f"... _function_from_string: {name}")
 
-    function_call = globalvars.get_function_from_name(name)
+    function_call = environment.get_function_from_name(name)
 
+    # Check if the function actually exists
     if function_call is not None and function_call.code_block is not None:
+        # Make sure the function has a local environment
+        environment.new()
+        # Call and return the function
         return interpret_model(function_call.code_block)
 
     # Can't raise an error if no name was given,

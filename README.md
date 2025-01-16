@@ -1,3 +1,16 @@
+# funl
+
+Rough prototype of what could become a fun functional language.
+
+> ⚠️ funl is currently in the unstable, incomplete version **a-3**.
+
+Take a look at the [changelog](./docs/changelog.md) to see what the current development stage is.
+
+Also there is a [reference](./docs/reference.md).
+
+## Example
+
+```lua
 version("a-3")
 
 -- recursive fibonacci function
@@ -33,3 +46,4 @@ print("n = ")
 input = int(in())
 
 main(input(), int(0))
+```

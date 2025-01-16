@@ -5,6 +5,7 @@ This module contains the textx grammar that defines the funl programming
 language. It is meant as a sort of lookup-table for the parser.
 """
 
+# TODO - eval functions parameters look incredibly bad to read
 grammar = """
     Model: statement *= Statement;
 
