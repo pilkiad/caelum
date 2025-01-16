@@ -28,7 +28,7 @@ def log_error(component: str, message: str, quit_application: bool = True) -> No
                             the error message was logged
     """
 
-    print(f"{Fore.RED}[Error] {Style.RESET_ALL}{message} ({component})")
+    print(f"{Fore.RED}[Error!] {Style.RESET_ALL}({component}) {message}")
 
     if quit_application:
         exit(-1)
@@ -42,7 +42,7 @@ def log_info(component: str, message: str) -> None:
     message: str            The info message
     """
 
-    print(f"{Fore.RESET}[Info] {message} ({component})")
+    print(f"{Fore.RESET}[Info  ] ({component}) {message}")
 
 
 def log_debug(component: str, message: str) -> None:
@@ -56,4 +56,4 @@ def log_debug(component: str, message: str) -> None:
     if not enable_debug:
         return
 
-    print(f"{Fore.CYAN}[Debug] {message} ({component}){Style.RESET_ALL}")
+    print(f"{Fore.CYAN}[Debug ] ({component}) {message}{Style.RESET_ALL}")
