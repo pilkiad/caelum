@@ -38,7 +38,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("funl/examples/fibonacci.funl", grammar.grammar)
+model = parser.file_to_model("funl/examples/vars.funl", grammar.grammar)
 interpreter.interpret_model(model)
 
 # FIXME - What even is this
