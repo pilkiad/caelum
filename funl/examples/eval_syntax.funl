@@ -1,0 +1,7 @@
+version("a-3")
+
+eval(int(1), "==", int(1), "print('1 == 1 and eval syntax is ugly')")
+
+eval({ int(1) == int(1) },
+    { print("1 == 1 and eval syntax is ugly") }
+)

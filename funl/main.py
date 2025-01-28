@@ -23,13 +23,6 @@ to the 'Statement' class defined in our textx grammar.
 # TODO - add line where error happened to output
 # TODO - add more comments
 
-# TODO - PARAMETERS:
-# TODO - pass parameters to functions called by eval
-# TODO - define parameter types
-# TODO - parameters never go out of scope
-
-# FIXME - possibly i call environment.new a lot less times than environment.pop?
-
 from . import parser
 from . import interpreter
 from .utils import grammar
@@ -38,7 +31,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("funl/examples/vars.funl", grammar.grammar)
+model = parser.file_to_model("funl/examples/eval_syntax.funl", grammar.grammar)
 interpreter.interpret_model(model)
 
 # FIXME - What even is this
