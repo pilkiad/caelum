@@ -20,7 +20,7 @@ function and custom functions.
 from .function_definition import FunctionDefinition
 
 
-VERSION = "a-3"
+VERSION = "a-4"
 # NOTE - this 2d array represents a number of enviromnents to store variables in,
 # for everey call to a function we move one index lower
 environment: list[list[FunctionDefinition]] = [[]]

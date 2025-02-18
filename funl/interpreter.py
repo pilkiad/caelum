@@ -24,6 +24,7 @@ from .functions import f_version
 from .functions import f_return
 from .functions import f_sub
 from .functions import f_assert
+from .functions import f_float
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -40,7 +41,8 @@ FUNCTION_MAP = {
     "version": f_version.handle,
     "return": f_return.handle,
     "sub": f_sub.handle,
-    "assert": f_assert.handle
+    "assert": f_assert.handle,
+    "float": f_float.handle
 }
 
 # Keeps track of the current call hirarchy depth

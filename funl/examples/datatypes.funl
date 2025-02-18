@@ -1,0 +1,5 @@
+version("a-4")
+
+println( int(0)         )
+println( rint(0, 10)    )
+println( float(0.1)     )
