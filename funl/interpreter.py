@@ -29,6 +29,7 @@ from .functions import f_rfloat
 from .functions import f_str
 from .functions import f_bool
 from .functions import f_rbool
+from .functions import f_meh
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -50,7 +51,8 @@ FUNCTION_MAP = {
     "rfloat": f_rfloat.handle,
     "str": f_str.handle,
     "bool": f_bool.handle,
-    "rbool": f_rbool.handle
+    "rbool": f_rbool.handle,
+    "meh": f_meh.handle
 }
 
 # Keeps track of the current call hirarchy depth
