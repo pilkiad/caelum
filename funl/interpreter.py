@@ -32,6 +32,7 @@ from .functions import f_rbool
 from .functions import f_meh
 from .functions import f_arr
 from .functions import f_draw
+from .functions import f_arr_push
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -56,7 +57,8 @@ FUNCTION_MAP = {
     "rbool": f_rbool.handle,
     "meh": f_meh.handle,
     "arr": f_arr.handle,
-    "draw": f_draw.handle
+    "draw": f_draw.handle,
+    "arr_push": f_arr_push.handle
 }
 
 # Keeps track of the current call hirarchy depth
@@ -206,7 +208,12 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     # computed on definition, i.e. int()
     if statement.code_block is None and statement.params_out is not None:
         logger.log_debug("Interpreter", "... (function is primitive)")
-        return statement.params_out
+        # Special case: primitive function calls to arrays can accept an index as parameter
+        if len(params) != 0 and isinstance(statement.params_out, list) and isinstance(params[0], int):
+            # TODO - improve and add check for bounds
+            return statement.params_out[params[0]]
+        else:
+            return statement.params_out
 
     # Custom functions first need all of the input parameters put into the
     # current environment

@@ -11,7 +11,7 @@ def handle(params: list[any]) -> list[any]:
                         the array
     """
 
-    if len(params) <= 2:
+    if len(params) == 0:
         logger.log_error("arr", f"Missing parameters for array: {params}")
 
     value = []
