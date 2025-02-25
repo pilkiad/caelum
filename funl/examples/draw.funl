@@ -1,0 +1,12 @@
+version("a-4")
+
+initial_state = arr(bool, 0, 0, 1, 0, 0)
+state_2 = arr(bool, 0, 1, 1, 1, 0)
+state_3 = arr(bool, 1, 1, 0, 0, 1)
+
+println("Drawing initial state")
+draw(initial_state())
+println("Drawing state #2")
+draw(state_2())
+println("Drawing state #3")
+draw(state_3())
