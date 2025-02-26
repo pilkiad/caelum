@@ -1,5 +1,6 @@
-version("a-3")
+version("a-4")
 
+rint(0, 100)
 println("Welcome to the higher-lower game! (0-100)")
 
 -- Core game loop
@@ -11,12 +12,16 @@ game_loop = (target, tries, max_tries) {
     guess = int(in())
 
     -- Check win conditions
-    eval(guess(), "==", target(), "win_game()")
-    eval(tries(), ">=" max_tries(), "loose_game(target())")
+    eval(eq(guess(), target()), {
+        win_game()
+    })
+    eval(gt(tries(), sub(max_tries(), int(1))), {
+        loose_game(target())
+    })
 
     -- Give hints
-    eval(guess(), ">", target(), "say_lower()")
-    eval(guess(), "<", target(), "say_higher()")
+    eval(gt(guess(), target()), { say_lower() })
+    eval(lt(guess(), target()), { say_higher() })
 
     game_loop(
         target(),
