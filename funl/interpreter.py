@@ -33,6 +33,11 @@ from .functions import f_meh
 from .functions import f_arr
 from .functions import f_draw
 from .functions import f_arr_push
+from .functions import f_arr_set
+from .functions import f_eq
+from .functions import f_gt
+from .functions import f_lt
+from .functions import f_div
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -58,7 +63,12 @@ FUNCTION_MAP = {
     "meh": f_meh.handle,
     "arr": f_arr.handle,
     "draw": f_draw.handle,
-    "arr_push": f_arr_push.handle
+    "arr_push": f_arr_push.handle,
+    "arr_set": f_arr_set.handle,
+    "eq": f_eq.handle,
+    "lt": f_lt.handle,
+    "gt": f_gt.handle,
+    "div": f_div.handle
 }
 
 # Keeps track of the current call hirarchy depth
