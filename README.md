@@ -2,7 +2,7 @@
 
 Rough prototype of what could become a fun functional language.
 
-> ⚠️ funl is currently in the unstable, incomplete version **a-3**.
+> ⚠️ funl is currently in the unstable, incomplete version **a-4**.
 
 Take a look at the [changelog](./docs/changelog.md) to see what the current development stage is.
 

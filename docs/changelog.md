@@ -1,3 +1,13 @@
+# a-4
+
+This alpha version adds many new datatypes, improves syntax and introduces the first drawing prototype.
+
+- Added datatypes: `float`, `rfloat`, `bool`, `rbool`, `arr`, `str`, `meh`
+- Added `arr_push()` and `arr_set()` to append to an array and set an element at a specific index respectively
+- Added `div()` to divide numbers. Returns `float` by default
+- Added `eq()` (equals), `gt()` (greater-than) and `lt()` (less-than) as boolean operations
+- Updated `eval` syntax: `eval(statement, { ... })`
+
 # a-3
 
 This alpha version is meant to further implement scopes and improve debugging capabilities.
