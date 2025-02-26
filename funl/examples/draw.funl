@@ -1,12 +1,31 @@
 version("a-4")
 
-initial_state = arr(bool, 0, 0, 1, 0, 0)
-state_2 = arr(bool, 0, 1, 1, 1, 0)
-state_3 = arr(bool, 1, 1, 0, 0, 1)
+-- TODO     It seems that the inner handling of res() may be erroneous?
+--          Check how the functions defs are being passed to inner functions
 
-println("Drawing initial state")
-draw(initial_state())
-println("Drawing state #2")
-draw(state_2())
-println("Drawing state #3")
-draw(state_3())
+-- FIXME    Incredibly slow - WHY?
+
+generate_arr = (length) {
+    -- Define empty result array
+    res = arr(bool)
+
+    loop = (i, max) {
+        -- Push random bool to array
+        res = arr_push(res(), bool(rint(0, 1)))
+        -- Repeat as long as iteration count is not reached
+        eval(i(), "<=", max(), "res = loop(add(i(), 1), max())")
+        -- Return updated array
+        return(res())
+    }
+
+    -- Fill array through loop
+    res = loop(0, length())
+
+    -- Return created array
+    return(res())
+}
+
+random_boolean_array = generate_arr(75)
+
+println(random_boolean_array())
+draw(random_boolean_array())
