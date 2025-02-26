@@ -17,7 +17,7 @@ grammar = """
     FunctionCall: name=ID '(' params*=Param (',' params*=Param)* ')';
     CodeBlock: '{' Model '}';
 
-    Param: FunctionCall | INT | FLOAT | ID | STRING;
+    Param: CodeBlock | FunctionCall | INT | FLOAT | ID | STRING;
     Comment: /--.*$/;
     ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
     INT: /[+-]?[0-9]+(?!\.)/;

@@ -139,7 +139,11 @@ def _evaluate_function_call(statement: any) -> any:
     logger.log_debug("Interpreter", f".. _evaluate_function_call: {statement.name}")
 
     # All parameters of function calls should be evaluated before calling
-    evaluated_params = [_evaluate_expression(param) for param in statement.params]
+    if statement.name != "eval":
+        evaluated_params = [_evaluate_expression(param) for param in statement.params]
+    else:
+        evaluated_params = [_evaluate_expression(statement.params[0])]
+        evaluated_params.append(statement.params[1])
 
     # Check if the function is native
     if statement.name in FUNCTION_MAP:
@@ -181,7 +185,8 @@ def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
             return None
         #logger.log_info("Interpreter", f"Evaluating: {eval_block_str}")
         #environment.new()
-        return interpret_model(parser.string_to_model(handler(params), grammar.grammar), inline=True)
+        #return interpret_model(parser.string_to_model(handler(params), grammar.grammar), inline=True)
+        return interpret_model(handler(params), inline=True)
         #return _call_function_from_string(handler(params))
 
     return handler(params)
