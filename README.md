@@ -11,39 +11,80 @@ Also there is a [reference](./docs/reference.md).
 ## Example
 
 ```lua
-version("a-4")
+version("a-5")
 
--- recursive fibonacci function
-fib = (n) {
-    case_0 = { return(int(0)) }
-    case_1 = { return(int(1)) }
+-- Constants
+SIZE = int(20)
+MIDDLE = int(div(SIZE(), int(2)))
+ITERATIONS = int(5)
 
-    res = int(0)
+-- Generates an empty array
+-- IN   i     int(0)      Current iteration
+-- IN   max   int         Size of the array
+-- OUT        arr(bool)   The resulting empty array
+gen_empty_state = (i, max) {
+    eval(eq(i(), int(0)),   { res = arr(bool) })
+    eval(gt(i(), int(0)),   { res = arr_push(res(), int(0)) })
+    eval(lt(i(), max()),    { res = gen_empty_state(add(i(), int(1)), max()) })
+    return(res())
+}
 
-    -- 0, 1 and 2 are special cases
-    eval(eq(n(), int(0)), { res = case_0() })
-    eval(eq(n(), int(1)), { res = case_1() })
-    eval(eq(n(), int(2)), { res = case_1() })
+-- Applies "Rule 30" rulebook to input array
+-- IN   current_state   arr(bool)   Current state of the system
+-- OUT                  arr(bool)   Next state of the system
+gen_next_state = (current_state) {
+    res = arr(bool)
 
-    -- if no special case matched, run fib(n-1)+fib(n-2)
-    eval(gt(n(), int(2)), {
-        fib_1 = fib(sub(n(), int(1)))
-        fib_2 = fib(sub(n(), int(2)))
-        res = add(fib_1(), fib_2())
-    })
+    -- Iterates over the cells of the system
+    iter = (i, max) {
+        updated_state = bool(0) -- new state cell defaults to bool(0)
+
+        -- Check bounds
+        eval(and(
+            gt(i(), int(0)),
+            lt(i(), max())), {
+                -- Apply rule 30
+                updated_state = xor(
+                    current_state(sub(i(), int(1))),
+                    or(
+                        current_state(i()),
+                        current_state(add(i(), int(1)))
+                    )
+                )
+        })
+
+        -- Append updated cell and repeat process
+        res = arr_push(res(), updated_state())
+        eval(lt(i(), max()), {
+            res = iter(add(i(), int(1)), max())
+        })
+
+        return(res())
+    }
+    res = iter(int(0), sub(SIZE(), int(1)))
 
     return(res())
 }
 
--- calls fibonacci function n times
-main = (n, c) {
-    print(fib(c()), ",")
-    eval(lt(c(), n()), { main(n(), add(c(), int(1)))})
+-- Simulates Rule 30 for n amount of iterations
+-- https://en.wikipedia.org/wiki/Rule_30
+-- IN   current_state   arr(bool)   Current state of the system
+-- IN   i               int(0)      Current iteration
+-- IN   n               int()       Maximum amount of iterations
+rule_30 = (current_state, i, n) {
+    new_state = gen_next_state(current_state())
+    draw(new_state())
+
+    eval(lt(i(), n()), {
+        rule_30(new_state(), add(i(), int(1)), n())
+    })
 }
 
-println("Calculate the fibonacci sequence up until n", "https://en.wikipedia.org/wiki/Fibonacci_sequence")
-print("n = ")
-input = int(in())
+-- Setup the initial state
+initial_state = gen_empty_state(int(0), SIZE())
+initial_state = arr_set(initial_state(), MIDDLE(), int(1))
 
-main(input(), int(0))
+-- Draw initial state and simulate Rule 30
+draw(initial_state())
+rule_30(initial_state(), int(0), ITERATIONS())
 ```
