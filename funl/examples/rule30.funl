@@ -60,7 +60,8 @@ gen_next_state = (current_state) {
 -- IN   n               int()       Maximum amount of iterations
 rule_30 = (current_state, i, n) {
     new_state = gen_next_state(current_state())
-    draw(new_state())
+    println(new_state())
+    --draw(new_state())
 
     eval(lt(i(), n()), {
         rule_30(new_state(), add(i(), int(1)), n())
@@ -72,5 +73,6 @@ initial_state = gen_empty_state(int(0), SIZE())
 initial_state = arr_set(initial_state(), MIDDLE(), int(1))
 
 -- Draw initial state and simulate Rule 30
-draw(initial_state())
+println(initial_state())
+--draw(initial_state())
 rule_30(initial_state(), int(0), ITERATIONS())

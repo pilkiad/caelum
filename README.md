@@ -1,12 +1,15 @@
-# funl
+# caelum
 
-Rough prototype of what could become a fun functional language.
+Caelum is a functional, eval-driven programming language with recursive constructs, suitable for mathematical simulations, formal modeling, and experimental programming approaches.
 
-> ⚠️ funl is currently in the unstable, incomplete version **a-4**.
+> ⚠️  caelum is currently in the unstable, incomplete version **a-5**.
 
-Take a look at the [changelog](./docs/changelog.md) to see what the current development stage is.
 
-Also there is a [reference](./docs/reference.md).
+## Reference
+
+[Changelog](./docs/changelog.md)
+
+[Reference](./docs/reference.md)
 
 ## Example
 
