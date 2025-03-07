@@ -1,0 +1,3 @@
+version("a-5")
+
+print("Hello, world!")
