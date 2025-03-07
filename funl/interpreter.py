@@ -40,6 +40,7 @@ from .functions import f_lt
 from .functions import f_div
 from .functions import f_and
 from .functions import f_or
+from .functions import f_xor
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -72,7 +73,8 @@ FUNCTION_MAP = {
     "gt": f_gt.handle,
     "div": f_div.handle,
     "and": f_and.handle,
-    "or": f_or.handle
+    "or": f_or.handle,
+    "xor": f_xor.handle
 }
 
 # Keeps track of the current call hirarchy depth

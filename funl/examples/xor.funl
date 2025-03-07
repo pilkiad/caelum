@@ -1,0 +1,10 @@
+version("a-5")
+
+println(xor(int(0), or(int(0), int(0))))
+println(xor(int(0), or(int(0), int(1))))
+println(xor(int(0), or(int(1), int(0))))
+println(xor(int(0), or(int(1), int(1))))
+println(xor(int(1), or(int(0), int(0))))
+println(xor(int(1), or(int(0), int(1))))
+println(xor(int(1), or(int(1), int(0))))
+println(xor(int(1), or(int(1), int(1))))

@@ -27,37 +27,18 @@ gen_next_state = (current_state) {
         updated_state = bool(0) -- new state cell defaults to bool(0)
 
         -- Check bounds
-        eval(gt(i(), int(0)), {
-        eval(lt(i(), max()), {
-            -- Apply all rules that may turn the cell to bool(1)
-            eval(and(
-                    eq(current_state(add(i(), int(1))),    bool(1)),
-                    eq(current_state(i()),                 bool(0)),
-                    eq(current_state(sub(i(), int(1))),    bool(0))), {
-                updated_state = bool(1)
-            })
-
-            eval(and(
-                    eq(current_state(add(i(), int(1))),    bool(0)),
-                    eq(current_state(i()),                 bool(1)),
-                    eq(current_state(sub(i(), int(1))),    bool(0))), {
-                updated_state = bool(1)
-            })
-
-            eval(and(
-                    eq(current_state(add(i(), int(1))),    bool(0)),
-                    eq(current_state(i()),                 bool(0)),
-                    eq(current_state(sub(i(), int(1))),    bool(1))), {
-                updated_state = bool(1)
-            })
-
-            eval(and(
-                    eq(current_state(add(i(), int(1))),    bool(1)),
-                    eq(current_state(i()),                 bool(1)),
-                    eq(current_state(sub(i(), int(1))),    bool(0))), {
-                updated_state = bool(1)
-            })
-        })})
+        eval(and(
+            gt(i(), int(0)),
+            lt(i(), max())), {
+                -- Apply rule 30
+                updated_state = xor(
+                    current_state(sub(i(), int(1))),
+                    or(
+                        current_state(i()),
+                        current_state(add(i(), int(1)))
+                    )
+                )
+        })
 
         -- Append updated cell and repeat process
         res = arr_push(res(), updated_state())
