@@ -1,7 +1,15 @@
 __pycache__/
+venv/*
 venv/
+venv
 *.backup
 *.insyncdl
 tags/*
 tags/
 tags
+.git/*
+.git/
+.git
+.vscode/*
+.vscode/
+.vscode

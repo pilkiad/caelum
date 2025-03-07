@@ -1,1 +1,3 @@
-textX==4.0.1
+textX
+colorama
+matplotlib
