@@ -4,12 +4,23 @@ Caelum is a functional, eval-driven programming language with recursive construc
 
 > ⚠️  caelum is currently in the unstable, incomplete version **a-5**.
 
-
 ## Reference
 
 [Changelog](./docs/changelog.md)
 
 [Reference](./docs/reference.md)
+
+## Installation
+
+Under debian:
+
+```bash
+git clone https://github.com/pilkiad/caelum.git
+cd caelum
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 ## Example
 
