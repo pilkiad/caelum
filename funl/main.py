@@ -20,7 +20,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("funl/examples/draw.funl", grammar.grammar)
+model = parser.file_to_model("funl/examples/rule30.funl", grammar.grammar)
 interpreter.interpret_model(model)
 
 print("")

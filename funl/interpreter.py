@@ -38,6 +38,8 @@ from .functions import f_eq
 from .functions import f_gt
 from .functions import f_lt
 from .functions import f_div
+from .functions import f_and
+from .functions import f_or
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -68,7 +70,9 @@ FUNCTION_MAP = {
     "eq": f_eq.handle,
     "lt": f_lt.handle,
     "gt": f_gt.handle,
-    "div": f_div.handle
+    "div": f_div.handle,
+    "and": f_and.handle,
+    "or": f_or.handle
 }
 
 # Keeps track of the current call hirarchy depth

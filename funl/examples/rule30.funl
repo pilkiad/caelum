@@ -1,4 +1,4 @@
-version("a-4")
+version("a-5")
 
 -- Constants
 SIZE = int(20)
@@ -30,29 +30,33 @@ gen_next_state = (current_state) {
         eval(gt(i(), int(0)), {
         eval(lt(i(), max()), {
             -- Apply all rules that may turn the cell to bool(1)
-            eval(eq(current_state(add(i(), int(1))),    bool(1)), {
-            eval(eq(current_state(i()),                 bool(0)), {
-            eval(eq(current_state(sub(i(), int(1))),    bool(0)), {
+            eval(and(
+                    eq(current_state(add(i(), int(1))),    bool(1)),
+                    eq(current_state(i()),                 bool(0)),
+                    eq(current_state(sub(i(), int(1))),    bool(0))), {
                 updated_state = bool(1)
-            })})})
+            })
 
-            eval(eq(current_state(add(i(), int(1))),    bool(0)), {
-            eval(eq(current_state(i()),                 bool(1)), {
-            eval(eq(current_state(sub(i(), int(1))),    bool(0)), {
+            eval(and(
+                    eq(current_state(add(i(), int(1))),    bool(0)),
+                    eq(current_state(i()),                 bool(1)),
+                    eq(current_state(sub(i(), int(1))),    bool(0))), {
                 updated_state = bool(1)
-            })})})
+            })
 
-            eval(eq(current_state(add(i(), int(1))),    bool(0)), {
-            eval(eq(current_state(i()),                 bool(0)), {
-            eval(eq(current_state(sub(i(), int(1))),    bool(1)), {
+            eval(and(
+                    eq(current_state(add(i(), int(1))),    bool(0)),
+                    eq(current_state(i()),                 bool(0)),
+                    eq(current_state(sub(i(), int(1))),    bool(1))), {
                 updated_state = bool(1)
-            })})})
+            })
 
-            eval(eq(current_state(add(i(), int(1))),    bool(1)), {
-            eval(eq(current_state(i()),                 bool(1)), {
-            eval(eq(current_state(sub(i(), int(1))),    bool(0)), {
+            eval(and(
+                    eq(current_state(add(i(), int(1))),    bool(1)),
+                    eq(current_state(i()),                 bool(1)),
+                    eq(current_state(sub(i(), int(1))),    bool(0))), {
                 updated_state = bool(1)
-            })})})
+            })
         })})
 
         -- Append updated cell and repeat process
