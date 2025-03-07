@@ -1,0 +1,23 @@
+version("a-4")
+
+generate_arr = (length) {
+    -- Define empty result array
+    res = arr(bool)
+
+    loop = (i, max) {
+        -- Push random bool to array
+        res = arr_push(res(), bool(rint(0, 1)))
+        -- Repeat as long as iteration count is not reached
+        eval(lt(i(), max()), { res = loop(add(i(), 1), max()) })
+        -- Return updated array
+        return(res())
+    }
+
+    -- Fill array through loop
+    res = loop(int(0), length())
+
+    -- Return created array
+    return(res())
+}
+
+draw(generate_arr(5))

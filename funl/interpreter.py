@@ -24,6 +24,20 @@ from .functions import f_version
 from .functions import f_return
 from .functions import f_sub
 from .functions import f_assert
+from .functions import f_float
+from .functions import f_rfloat
+from .functions import f_str
+from .functions import f_bool
+from .functions import f_rbool
+from .functions import f_meh
+from .functions import f_arr
+from .functions import f_draw
+from .functions import f_arr_push
+from .functions import f_arr_set
+from .functions import f_eq
+from .functions import f_gt
+from .functions import f_lt
+from .functions import f_div
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -40,7 +54,21 @@ FUNCTION_MAP = {
     "version": f_version.handle,
     "return": f_return.handle,
     "sub": f_sub.handle,
-    "assert": f_assert.handle
+    "assert": f_assert.handle,
+    "float": f_float.handle,
+    "rfloat": f_rfloat.handle,
+    "str": f_str.handle,
+    "bool": f_bool.handle,
+    "rbool": f_rbool.handle,
+    "meh": f_meh.handle,
+    "arr": f_arr.handle,
+    "draw": f_draw.handle,
+    "arr_push": f_arr_push.handle,
+    "arr_set": f_arr_set.handle,
+    "eq": f_eq.handle,
+    "lt": f_lt.handle,
+    "gt": f_gt.handle,
+    "div": f_div.handle
 }
 
 # Keeps track of the current call hirarchy depth
@@ -121,7 +149,11 @@ def _evaluate_function_call(statement: any) -> any:
     logger.log_debug("Interpreter", f".. _evaluate_function_call: {statement.name}")
 
     # All parameters of function calls should be evaluated before calling
-    evaluated_params = [_evaluate_expression(param) for param in statement.params]
+    if statement.name != "eval":
+        evaluated_params = [_evaluate_expression(param) for param in statement.params]
+    else:
+        evaluated_params = [_evaluate_expression(statement.params[0])]
+        evaluated_params.append(statement.params[1])
 
     # Check if the function is native
     if statement.name in FUNCTION_MAP:
@@ -163,7 +195,8 @@ def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
             return None
         #logger.log_info("Interpreter", f"Evaluating: {eval_block_str}")
         #environment.new()
-        return interpret_model(parser.string_to_model(handler(params), grammar.grammar), inline=True)
+        #return interpret_model(parser.string_to_model(handler(params), grammar.grammar), inline=True)
+        return interpret_model(handler(params), inline=True)
         #return _call_function_from_string(handler(params))
 
     return handler(params)
@@ -190,7 +223,12 @@ def _evaluate_custom_function_call(statement: FunctionDefinition, params: any) -
     # computed on definition, i.e. int()
     if statement.code_block is None and statement.params_out is not None:
         logger.log_debug("Interpreter", "... (function is primitive)")
-        return statement.params_out
+        # Special case: primitive function calls to arrays can accept an index as parameter
+        if len(params) != 0 and isinstance(statement.params_out, list) and isinstance(params[0], int):
+            # TODO - improve and add check for bounds
+            return statement.params_out[params[0]]
+        else:
+            return statement.params_out
 
     # Custom functions first need all of the input parameters put into the
     # current environment

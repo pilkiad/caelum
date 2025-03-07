@@ -16,7 +16,7 @@ def handle(params: list[str]) -> str | None:
                         None otherwise
     """
 
-    if eval(f"{params[0]} {params[1]} {params[2]}"):
-        return str(params[3])
+    if params[0]:
+        return params[1]
 
     return None

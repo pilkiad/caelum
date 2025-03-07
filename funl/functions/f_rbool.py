@@ -10,7 +10,7 @@ def handle(params: list[int]) -> int:
     params: list[int]   param[0] is min, param[1] is max
     """
 
-    try:
-        return random.randint(params[0], params[1])
-    except:
-        logger.log_error("rint", f"Invalid params: {params}")
+    if len(params) != 0:
+        logger.log_error("rbool", f"Random bool does not take arguments: {params}")
+
+    return random.randint(0, 1)
