@@ -1,10 +1,5 @@
 version("a-4")
 
--- TODO     It seems that the inner handling of res() may be erroneous?
---          Check how the functions defs are being passed to inner functions
-
--- FIXME    Incredibly slow - WHY?
-
 generate_arr = (length) {
     -- Define empty result array
     res = arr(bool)
@@ -13,19 +8,16 @@ generate_arr = (length) {
         -- Push random bool to array
         res = arr_push(res(), bool(rint(0, 1)))
         -- Repeat as long as iteration count is not reached
-        eval(i(), "<=", max(), "res = loop(add(i(), 1), max())")
+        eval(lt(i(), max()), { res = loop(add(i(), 1), max()) })
         -- Return updated array
         return(res())
     }
 
     -- Fill array through loop
-    res = loop(0, length())
+    res = loop(int(0), length())
 
     -- Return created array
     return(res())
 }
 
-random_boolean_array = generate_arr(75)
-
-println(random_boolean_array())
-draw(random_boolean_array())
+draw(generate_arr(5))

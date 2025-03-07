@@ -77,7 +77,7 @@ rule_30 = (current_state, i, n) {
     new_state = gen_next_state(current_state())
     draw(new_state())
 
-    eval(lt(n(), max_iters()), {
+    eval(lt(i(), n()), {
         rule_30(new_state(), add(i(), int(1)), n())
     })
 }
