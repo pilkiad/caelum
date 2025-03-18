@@ -1,8 +1,28 @@
 """
-> Interprets funl models
+> Interprets caelum models
 
-NOTE - currently WIP until I finally get my head around how recursive interpretation
-works
+This is the heart of the caelum language.
+
+This module will handle all interpretative work when handling .clm files.
+Since everything in caelum is either a function definition or declaraction, there
+are not that many individual functions in this module.
+
+This is the general behaviour:
+1. The entry point is always interpret_model(), both for a new file or a custom
+    function being called withing the file
+2. From there, call _evaluate_expression() for every line of code within the model
+3. This will call either _evaluate_function_call() or _evaluate_function_definition()
+    3.1 _evaluate_function_call() will either call a handle() function if the function
+        being called is native, return its value if its primitive or execute the
+        code block if its custom
+    3.2 _evaluate_function_definition() will parse the function definition to
+        the environment handler
+
+There are three types of functions known in caelum:
+    - **native** functions, builtins like println, int, ...
+    - **custom** functions, defined by the user like: my_func=(){...}
+    - **primitive** functions, special case of custom functions where the function
+        is equal to a single native call like: x=int(0)
 """
 
 from .utils import logger
