@@ -1,4 +1,4 @@
-# caelum
+<img src="./resources/caelum-logo.png" width="100px" height="100px">
 
 Caelum is a functional, eval-driven programming language with recursive constructs, suitable for mathematical simulations, formal modeling, and experimental programming approaches.
 
