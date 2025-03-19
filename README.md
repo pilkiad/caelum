@@ -4,6 +4,10 @@ Caelum is a functional, eval-driven programming language with recursive construc
 
 > ⚠️  caelum is currently in the unstable, incomplete version **a-5**.
 
+## **Convay's Game of Life in Caelum**
+
+<img src="./resources/demo-convay.gif" width="500px">
+
 ## Reference
 
 [Changelog](./docs/changelog.md)
