@@ -1,3 +1,11 @@
+# a-5 WIP
+
+- Renamed from *funl* to *caelum*
+- Added logo
+- Added example for convay's game of life: `examples/convay.clm`, also added gif showing that
+- Added `clear()` to clear all content in console
+- Added logical operators `and()`, `or()`, `xor()`
+
 # a-4
 
 This alpha version adds many new datatypes, improves syntax and introduces the first drawing prototype.
