@@ -27,17 +27,15 @@ gen_next_state = (current_state) {
         updated_state = bool(0) -- new state cell defaults to bool(0)
 
         -- Check bounds
-        eval(and(
-            gt(i(), int(0)),
-            lt(i(), max())), {
-                -- Apply rule 30
-                updated_state = xor(
-                    current_state(sub(i(), int(1))),
-                    or(
-                        current_state(i()),
-                        current_state(add(i(), int(1)))
-                    )
+        eval(and(gt(i(), int(0)), lt(i(), max())), {
+            -- Apply rule 30
+            updated_state = xor(
+                current_state(sub(i(), int(1))),
+                or(
+                    current_state(i()),
+                    current_state(add(i(), int(1)))
                 )
+            )
         })
 
         -- Append updated cell and repeat process

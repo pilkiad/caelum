@@ -12,6 +12,9 @@ essentially just responsible for calling the other modules.
 # TODO - add line where error happened to output
 # TODO - add more comments
 
+import sys
+sys.setrecursionlimit(50000)
+
 from . import parser
 from . import interpreter
 from .utils import grammar
@@ -20,7 +23,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("examples/hello_world.clm", grammar.grammar)
+model = parser.file_to_model("examples/convay.clm", grammar.grammar)
 interpreter.interpret_model(model)
 
 print("")

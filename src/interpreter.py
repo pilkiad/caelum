@@ -61,6 +61,7 @@ from .functions import f_div
 from .functions import f_and
 from .functions import f_or
 from .functions import f_xor
+from .functions import f_clear
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -94,7 +95,8 @@ FUNCTION_MAP = {
     "div": f_div.handle,
     "and": f_and.handle,
     "or": f_or.handle,
-    "xor": f_xor.handle
+    "xor": f_xor.handle,
+    "clear": f_clear.handle
 }
 
 # Keeps track of the current call hirarchy depth

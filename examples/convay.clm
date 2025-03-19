@@ -1,0 +1,110 @@
+version("a-5")
+
+DIM = int(20)
+
+gen_empty_arr = (i, m) {
+    eval(eq(i(), int(0)), { res = arr(bool) })
+    eval(lt(i(), m()), {
+        res = arr_push(res(), bool(0))
+        res = gen_empty_arr(add(i(), int(1)), m())
+    })
+    return(res())
+}
+
+gen_state = (i, m) {
+    eval(eq(i(), int(0)), { res = arr(arr) })
+    eval(lt(i(), m()), {
+        res = arr_push(res(), gen_empty_arr(int(0), m(0)))
+        res = gen_state(add(i(), int(1)), m())
+    })
+    return(res())
+}
+
+pprint_arr = (in_arr) {
+    l = (i, m) {
+        eval(eq(in_arr(i()), bool(0)), { print(" ") })
+        eval(eq(in_arr(i()), bool(1)), { print("x") })
+        eval(lt(i(), sub(m(), int(1))), { l(add(i(), int(1)), m()) })
+    }
+    l(int(0), DIM())
+
+    println(" |")
+}
+
+pprint_state = (state) {
+    clear()
+    l = (i, m) {
+        pprint_arr(state(i()))
+        eval(lt(i(), sub(m(), int(1))), { l(add(i(), int(1)), m()) })
+    }
+    l(int(0), DIM())
+
+    l = (i, m) {
+        print(".")
+        eval(lt(i(), m()), { l(add(i(), int(1)), m()) })
+    }
+    l(int(0), DIM())
+}
+
+get_cell = (state, y, x) {
+    row = state(y())
+    cell = row(x())
+    return(cell())
+}
+
+step_sim = (state) {
+    nstate = gen_state(int(0), DIM())
+
+    l_y = (nstate, y, y_m) {
+        l_x = (nstate, x, x_m) {
+            row = state(y())
+            cell = row(x())
+
+            eval(and(lt(y(), sub(y_m(), int(1))), gt(y(), int(0)), lt(x(), sub(x_m(), int(1))), gt(x(), int(0))), {
+                neighbours = int(0)
+                neighbours = add(neighbours(), get_cell(state(), y(), sub(x(), int(1))))
+                neighbours = add(neighbours(), get_cell(state(), y(), add(x(), int(1))))
+                neighbours = add(neighbours(), get_cell(state(), sub(y(), int(1)), x()))
+                neighbours = add(neighbours(), get_cell(state(), add(y(), int(1)), x()))
+                neighbours = add(neighbours(), get_cell(state(), sub(y(), int(1)), sub(x(), int(1))))
+                neighbours = add(neighbours(), get_cell(state(), add(y(), int(1)), add(x(), int(1))))
+                neighbours = add(neighbours(), get_cell(state(), sub(y(), int(1)), add(x(), int(1))))
+                neighbours = add(neighbours(), get_cell(state(), add(y(), int(1)), sub(x(), int(1))))
+
+                born = and(eq(neighbours(), int(3)), eq(cell(), int(0)))
+                alive = and(eq(cell(), int(1)), or(eq(neighbours(), int(2)), eq(neighbours(), int(3))))
+
+                ncell = or(alive(), born())
+                nstate = arr_set(nstate(), int(y()), arr_set(nstate(y()), int(x()), ncell()))
+            })
+            eval(lt(x(), sub(x_m(), int(1))), { nstate = l_x(nstate(), add(x(), int(1)), x_m()) })
+
+            return(nstate())
+        }
+        nstate = l_x(nstate(), int(0), DIM())
+        eval(lt(y(), sub(y_m(), int(1))), { nstate = l_y(nstate(), add(y(), int(1)), y_m()) })
+
+        return(nstate())
+    }
+    nstate = l_y(nstate(), int(0), DIM())
+
+    return(nstate())
+}
+
+convay = (state, i, m) {
+    state = step_sim(state())
+    pprint_state(state())
+
+    eval(lt(i(), m()), { convay(state(), add(i(), int(1)), m()) })
+}
+
+state = gen_state(int(0), DIM())
+-- Glider
+state = arr_set(state(), int(1), arr_set(state(1), int(2), bool(1)))
+state = arr_set(state(), int(2), arr_set(state(2), int(3), bool(1)))
+state = arr_set(state(), int(3), arr_set(state(3), int(1), bool(1)))
+state = arr_set(state(), int(3), arr_set(state(3), int(2), bool(1)))
+state = arr_set(state(), int(3), arr_set(state(3), int(3), bool(1)))
+pprint_state(state())
+
+convay(state(), int(0), int(30))
