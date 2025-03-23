@@ -23,7 +23,7 @@ from .utils import logger
 # TODO - add argparse -d
 logger.enable_debug = False
 
-model = parser.file_to_model("examples/import.clm", grammar.grammar)
+model = parser.file_to_model("examples/convay.clm", grammar.grammar)
 interpreter.interpret_model(model)
 
 print("")

@@ -1,0 +1,25 @@
+std/tui/pprint_bool_arr = (in_arr) {
+    l = (i, m) {
+        eval(eq(in_arr(i()), bool(0)), { print(" ") })
+        eval(eq(in_arr(i()), bool(1)), { print("x") })
+        eval(lt(i(), sub(m(), int(1))), { l(add(i(), int(1)), m()) })
+    }
+    l(int(0), arr_len(in_arr()))
+
+    println(" |")
+}
+
+std/tui/pprint_bool_arr2d = (in_arr) {
+    clear()
+    l = (i, m) {
+        std/tui/pprint_bool_arr(in_arr(i()))
+        eval(lt(i(), sub(m(), int(1))), { l(add(i(), int(1)), m()) })
+    }
+    l(int(0), arr_len(in_arr()))
+
+    l = (i, m) {
+        print(".")
+        eval(lt(i(), m()), { l(add(i(), int(1)), m()) })
+    }
+    l(int(0), arr_len(in_arr()))
+}
