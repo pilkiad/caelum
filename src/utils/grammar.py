@@ -19,7 +19,7 @@ grammar = """
 
     Param: CodeBlock | FunctionCall | INT | FLOAT | ID | STRING;
     Comment: /--.*$/;
-    ID: /[a-zA-Z_][a-zA-Z0-9_]*/;
+    ID: /[a-zA-Z_\/][a-zA-Z0-9_\/]*/;
     INT: /[+-]?[0-9]+(?!\.)/;
     FLOAT: /[+-]?([0-9]*[.])?[0-9]+/;
 """

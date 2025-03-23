@@ -1,0 +1,6 @@
+version("a-5")
+import(std/data)
+
+my_array = std/data/bool_rarr_gen(int(10))
+
+println(my_array())
