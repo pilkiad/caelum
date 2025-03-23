@@ -63,6 +63,7 @@ from .functions import f_or
 from .functions import f_xor
 from .functions import f_clear
 from .functions import f_import
+from .functions import f_arr_len
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -98,7 +99,8 @@ FUNCTION_MAP = {
     "or": f_or.handle,
     "xor": f_xor.handle,
     "clear": f_clear.handle,
-    "import": f_import.handle
+    "import": f_import.handle,
+    "arr_len": f_arr_len.handle
 }
 
 # Keeps track of the current call hirarchy depth
