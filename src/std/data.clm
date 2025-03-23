@@ -1,0 +1,47 @@
+std/data/int_arr_gen = (size) {
+    l = (i, size) {
+        eval(eq(i(), int(0)), { res = arr(int) })
+        eval(lt(i(), size()), {
+            res = arr_push(res(), int(0))
+            res = l(add(i(), int(1)), size())
+        })
+        return(res())
+    }
+    return(l(int(0), size()))
+}
+
+std/data/int_rarr_gen = (size, min, max) {
+    l = (i, size, min, max) {
+        eval(eq(i(), int(0)), { res = arr(int) })
+        eval(lt(i(), size()), {
+            res = arr_push(res(), rint(min(), max()))
+            res = l(add(i(), int(1)), size(), min(), max())
+        })
+        return(res())
+    }
+    return(l(int(0), size(), min(), max()))
+}
+
+std/data/bool_arr_gen = (size) {
+    l = (i, size) {
+        eval(eq(i(), int(0)), { res = arr(bool) })
+        eval(lt(i(), size()), {
+            res = arr_push(res(), bool(0))
+            res = l(add(i(), int(1)), size())
+        })
+        return(res())
+    }
+    return(l(int(0), size()))
+}
+
+std/data/bool_rarr_gen = (size) {
+    l = (i, size) {
+        eval(eq(i(), int(0)), { res = arr(bool) })
+        eval(lt(i(), size()), {
+            res = arr_push(res(), rbool())
+            res = l(add(i(), int(1)), size())
+        })
+        return(res())
+    }
+    return(l(int(0), size()))
+}
