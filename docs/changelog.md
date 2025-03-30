@@ -1,7 +1,6 @@
 # a-5
 
-This alpha version introduces the quality-of-life feature *imports* aswell as a working example of convays game of life:
-
+This alpha version introduces the quality-of-life feature *imports* as well as a working example of convays game of life:
 - Renamed from *funl* to *caelum*
 - Added logo
 - Added example for convay's game of life: `examples/convay.clm`, also added gif showing that
