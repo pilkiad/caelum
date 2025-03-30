@@ -62,6 +62,8 @@ from .functions import f_and
 from .functions import f_or
 from .functions import f_xor
 from .functions import f_clear
+from .functions import f_import
+from .functions import f_arr_len
 
 
 # FUNCTION_MAP contains references to each inbuilt funl functions handler functions
@@ -96,7 +98,9 @@ FUNCTION_MAP = {
     "and": f_and.handle,
     "or": f_or.handle,
     "xor": f_xor.handle,
-    "clear": f_clear.handle
+    "clear": f_clear.handle,
+    "import": f_import.handle,
+    "arr_len": f_arr_len.handle
 }
 
 # Keeps track of the current call hirarchy depth
@@ -217,15 +221,11 @@ def _evaluate_native_function_call(name: str, handler: any, params: any) -> any:
     logger.log_debug("Interpreter", f"... _evaluate_native_function_call: {name}")
 
     # Special case eval: the return value has to be
-    if name == "eval":
-        eval_block_str = handler(params)
-        if eval_block_str is None:
+    if name == "eval" or name == "import":
+        resulting_model = handler(params)
+        if resulting_model is None:
             return None
-        #logger.log_info("Interpreter", f"Evaluating: {eval_block_str}")
-        #environment.new()
-        #return interpret_model(parser.string_to_model(handler(params), grammar.grammar), inline=True)
-        return interpret_model(handler(params), inline=True)
-        #return _call_function_from_string(handler(params))
+        return interpret_model(resulting_model, inline=True)
 
     return handler(params)
 

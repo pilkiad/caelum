@@ -1,10 +1,14 @@
-# a-5 WIP
+# a-5
 
+This alpha version introduces the quality-of-life feature *imports* as well as a working example of convays game of life:
 - Renamed from *funl* to *caelum*
 - Added logo
 - Added example for convay's game of life: `examples/convay.clm`, also added gif showing that
 - Added `clear()` to clear all content in console
 - Added logical operators `and()`, `or()`, `xor()`
+- Added `import()` to import files by interpreting them in the current environment
+- Added `std/data.clm` with some functions for array generation, importable by `import(std/data)`
+- Added `std/tui.clm` with some functions for array pretty printing, importable by `import(std/tui)`
 
 # a-4
 

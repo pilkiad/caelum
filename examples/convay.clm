@@ -1,50 +1,8 @@
 version("a-5")
+import(std/data)
+import(std/tui)
 
 DIM = int(20)
-
-gen_empty_arr = (i, m) {
-    eval(eq(i(), int(0)), { res = arr(bool) })
-    eval(lt(i(), m()), {
-        res = arr_push(res(), bool(0))
-        res = gen_empty_arr(add(i(), int(1)), m())
-    })
-    return(res())
-}
-
-gen_state = (i, m) {
-    eval(eq(i(), int(0)), { res = arr(arr) })
-    eval(lt(i(), m()), {
-        res = arr_push(res(), gen_empty_arr(int(0), m(0)))
-        res = gen_state(add(i(), int(1)), m())
-    })
-    return(res())
-}
-
-pprint_arr = (in_arr) {
-    l = (i, m) {
-        eval(eq(in_arr(i()), bool(0)), { print(" ") })
-        eval(eq(in_arr(i()), bool(1)), { print("x") })
-        eval(lt(i(), sub(m(), int(1))), { l(add(i(), int(1)), m()) })
-    }
-    l(int(0), DIM())
-
-    println(" |")
-}
-
-pprint_state = (state) {
-    clear()
-    l = (i, m) {
-        pprint_arr(state(i()))
-        eval(lt(i(), sub(m(), int(1))), { l(add(i(), int(1)), m()) })
-    }
-    l(int(0), DIM())
-
-    l = (i, m) {
-        print(".")
-        eval(lt(i(), m()), { l(add(i(), int(1)), m()) })
-    }
-    l(int(0), DIM())
-}
 
 get_cell = (state, y, x) {
     row = state(y())
@@ -53,7 +11,7 @@ get_cell = (state, y, x) {
 }
 
 step_sim = (state) {
-    nstate = gen_state(int(0), DIM())
+    nstate = std/data/gen_bool_arr2d(DIM())
 
     l_y = (nstate, y, y_m) {
         l_x = (nstate, x, x_m) {
@@ -93,18 +51,18 @@ step_sim = (state) {
 
 convay = (state, i, m) {
     state = step_sim(state())
-    pprint_state(state())
+    std/tui/pprint_bool_arr2d(state())
 
     eval(lt(i(), m()), { convay(state(), add(i(), int(1)), m()) })
 }
 
-state = gen_state(int(0), DIM())
+state = std/data/gen_bool_arr2d(DIM())
 -- Glider
 state = arr_set(state(), int(1), arr_set(state(1), int(2), bool(1)))
 state = arr_set(state(), int(2), arr_set(state(2), int(3), bool(1)))
 state = arr_set(state(), int(3), arr_set(state(3), int(1), bool(1)))
 state = arr_set(state(), int(3), arr_set(state(3), int(2), bool(1)))
 state = arr_set(state(), int(3), arr_set(state(3), int(3), bool(1)))
-pprint_state(state())
+std/tui/pprint_bool_arr2d(state())
 
 convay(state(), int(0), int(30))
