@@ -9,6 +9,7 @@ This alpha version introduces the quality-of-life feature *imports* as well as a
 - Added `import()` to import files by interpreting them in the current environment
 - Added `std/data.clm` with some functions for array generation, importable by `import(std/data)`
 - Added `std/tui.clm` with some functions for array pretty printing, importable by `import(std/tui)`
+- Added `arr_len` to get the length of an array
 
 # a-4
 
